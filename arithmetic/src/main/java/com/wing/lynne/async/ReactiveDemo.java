@@ -1,0 +1,62 @@
+package com.wing.lynne.async;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
+import java.util.concurrent.Flow.Subscription;
+import java.util.concurrent.SubmissionPublisher;
+
+public class ReactiveDemo {
+
+  public static void main(String[] args) throws InterruptedException {
+
+    try (SubmissionPublisher submissionPublisher = new SubmissionPublisher()) {
+
+      submissionPublisher.subscribe(new MySubscriber());
+      submissionPublisher.subscribe(new MySubscriber());
+      submissionPublisher.subscribe(new MySubscriber());
+
+      CompletableFuture<Void> completableFuture = submissionPublisher.consume(value -> {
+        System.out.printf(
+            "Current Thread[%s]  consumes value[%s]\n",
+            Thread.currentThread().getName(),
+            value);
+      }).thenRun(() -> System.out.print(Thread.currentThread().getName() + "completed"))
+          .thenRunAsync(() -> System.out
+              .print(Thread.currentThread().getName() + "async completed"));
+
+      int submit = submissionPublisher.submit(100);
+
+//      System.out.println("submit = " + submit);
+
+      Thread.currentThread().join(100000);
+
+    }
+
+  }
+
+
+  public static class MySubscriber implements Flow.Subscriber {
+
+    @Override
+    public void onSubscribe(Subscription subscription) {
+      subscription.request(1);
+      System.out.println(Thread.currentThread().getName() + "-" + subscription);
+    }
+
+    @Override
+    public void onNext(Object item) {
+      System.out.println(Thread.currentThread().getName() + "-" + item);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+      System.out.println(Thread.currentThread().getName() + "-" + "throw exception");
+    }
+
+    @Override
+    public void onComplete() {
+      System.out.println(Thread.currentThread().getName() + "-" + "finish");
+    }
+  }
+
+}

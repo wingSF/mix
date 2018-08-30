@@ -1,4 +1,4 @@
-package com.wing.lynne;
+package com.wing.lynne.leetcode;
 
 /**
  * 俩个数组，交换其中的某一个元素，使数组中元素的和相等

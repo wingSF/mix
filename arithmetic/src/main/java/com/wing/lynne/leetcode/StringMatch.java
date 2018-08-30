@@ -1,4 +1,4 @@
-package com.wing.lynne;
+package com.wing.lynne.leetcode;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -25,7 +25,7 @@ public class StringMatch {
 
     public static List<String> findAndReplacePattern(String[] words, String pattern) {
 
-        List<String> resultStringList = new ArrayList<>();
+        List<String> resultStringList = new ArrayList();
 
         for (String word : words) {
 

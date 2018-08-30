@@ -1,4 +1,4 @@
-package com.wing.lynne;
+package com.wing.lynne.leetcode;
 
 public class OrderedArray {
 
