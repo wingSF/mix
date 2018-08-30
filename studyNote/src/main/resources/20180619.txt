@@ -1,0 +1,36 @@
+1.redis独立运行会有问题，如果单机点故障会导致服务不可用
+2.由于单节点不稳定，所以出现了备份节点，业界一般认为数据备份三份为安全，所以架构模型，主从从
+3.主节点宕机后，主节点切换到备份节点，只能完成读操作，无法完成写操作，需要从节点能自动转换为主节点，需要redis的sentinel特性
+4.redis有俩个服务，一个叫server服务，一个叫sentinel服务，
+    ex：3台服务器，同时开启server服务+sentinel服务，选定某个节点为master节点，其他为slave节点
+        为保证安全，可以修改服务的默认端口号
+        启动时，注意各个机器见防火墙对于端口的设置
+        最终集群状态，可以通过  info replication名片查看状态
+5.在启动sentinel服务的时候，需要写sentinel.conf，其中的down-after-millionseconds对主节点是否宕机进行宣判
+6.redis-sentinel服务提供了一个接口，在向redis发起请求时，可以先请求这个接口才获取主节点的ip地址
+    ex:  sentinel get-master-addr-by-name  <master name> 可以获取主节点信息
+  这样会导致代码的每个redis操作，都需要先获取主节点信息，才能进行操作
+7.漂移VIP
+    使用redis sentinel服务时，有一个参数 client-reconfig-script，配置该脚本，就可以让redis在sentinel的时候执行这个脚本
+    命令:sentinel client-reconfig-script master8000   /opt/notify_master6800.sh
+    入参为一下6个参数
+        <master-name>  <role>  <state>  <from-ip>  <from-port>  <to-ip>             <to-port>
+                                                                新的主redis的ip地址
+8.手动绑定脚本
+    #notify_master6800.sh脚本内容
+    #!/bin/bash
+    MASTER_IP=$6  #第六个参数是新主redis的ip地址
+    LOCAL_IP='192.168.56.101'  #其他两个服务器上为192.168.56.102，192.168.56.103
+    VIP='192.168.56.250'
+    NETMASK='24'
+    INTERFACE='eth1'
+    if [ ${MASTER_IP} = ${LOCAL_IP} ];then
+        /sbin/ip  addr  add ${VIP}/${NETMASK}  dev ${INTERFACE}  #将VIP绑定到该服务器上
+        /sbin/arping -q -c 3 -A ${VIP} -I ${INTERFACE}
+        exit 0
+    else
+       /sbin/ip  addr del  ${VIP}/${NETMASK}  dev ${INTERFACE}   #将VIP从该服务器上删除
+       exit 0
+    fi
+    exit 1  #如果返回1，sentinel会一直执行这个脚本
+9.通过上述方式可以，客户端不关注redis集群的结构，所有的接入只是一个vip的地址和端口号

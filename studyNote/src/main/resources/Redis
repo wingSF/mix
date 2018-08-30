@@ -1,0 +1,48 @@
+1.redis数据结构
+    String，hash，list，set，sortedSet
+    HyperLogLog，Geo。Pub/Sub
+
+    Redis Moudle
+        BloomFilter，RedisSearch，Redis-ML
+
+    Scan与Keys
+
+    redis数据恢复与同步机制
+
+    pipeline
+
+    集群原理
+
+2.问题驱动复习
+    reids-cli> set name wing
+    上述命令执行的时候
+        如何分配空间（动态字符串）
+        如果原有新的字符串长度比原来长如何扩容，最大多少
+
+        mset和mget批量操作比set，get的优势
+
+        set  setex   setnx（key存在不存在，俩种结果）
+
+        incr   incrby   如果一直+下去呢？
+
+        list的实现是链表还是数组？直接导致增删操作和查询操作的性能问题
+
+        list底层实现，和内存回收分配策略
+
+        hash的数据结构
+
+        hash结构的rehash过程
+
+        hash与字符串的比较
+            hash将对象的属性打散存储，这样在获取的时候可以节省流量，但是需要权衡
+            hash的存储占用空间大于单个字符串？为啥？
+
+        命令行hset字符串的时候，遇到空格需要+引号，不加会如何？
+
+        批量hmset  hincr
+
+        sadd，smembers，sismember，scard spop（左还是右）
+
+        zset特性
+
+        排序，区间

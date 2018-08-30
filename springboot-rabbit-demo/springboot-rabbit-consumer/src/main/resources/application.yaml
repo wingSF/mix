@@ -1,0 +1,8 @@
+spring:
+  rabbitmq:
+    addresses: 192.168.0.243,192.168.0.235,192.168.0.133
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8888

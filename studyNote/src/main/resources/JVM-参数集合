@@ -1,0 +1,33 @@
+1.-Xms
+    堆的最小值
+2.-Xmx
+    堆的最大值
+        将1和2设置一样大，可以避免堆自动扩展
+3.-XX:+HeapDumpOnOutOfMemoryError
+    虚拟机出现内存溢出异常时Dump出当前的内存堆转储快照
+        分析转储文件，使用Eclipse Memory Analyzer对快照进行分析
+            如果对象是必要存在的，是内存溢出（Memory Overflow）
+                看物理内存是否可以再扩容
+                检查是否存在某些对象生命周期过长
+                检查是否存在某些对象持有状态时间过长
+                尝试减少程序运行期的内存消耗
+            如果对象是不需要存在的，是内存泄漏(Memory Leak)
+                检查泄漏对象到GC Roots的引用链
+4.-Xoss
+    设置本地方法栈大小（该参数对HotSpot无效）
+5.-Xss
+    设置栈大小
+6.-XX:MaxDirectMemorySize
+    指定直接内存大小，不指定默认与java堆的最大值一样
+        该内存区域溢出后，Dump的文件较小，且没有明显异常；如果代码使用了NIO，有可能是该区域造成的
+7.-XX:PermSize     -XX:MaxPermSize
+    限制方法区的大小
+        间接限制常量池大小
+8.-Xnoclassgc
+    class是否参与gc
+9.-verbose:class    -XX:+TraceClassLoading      -XX:+TraceClassUnLoading
+    查看类的加载和卸载信息
+    第一个和第二个指令可以在product版的虚拟机中使用
+    第三个需要在FastDebug版本的虚拟机中使用
+10.
+
