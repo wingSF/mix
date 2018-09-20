@@ -1,0 +1,7 @@
+server:
+  port: 8081
+rocket:
+  producerGroupName: producer_group
+  consumerGroupName: consumer_group
+  topic:  topic_test
+  nameServerAddress: 192.168.15.37:9876

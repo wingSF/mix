@@ -1,4 +1,4 @@
-package com.wing.lynne.async;
+package com.wing.lynne.publishAndSubscribe;
 
 import java.util.Observable;
 

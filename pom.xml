@@ -11,6 +11,7 @@
     <module>arithmetic</module>
     <module>studyNote</module>
     <module>springboot-rabbit-demo</module>
+    <module>springboot-rocket-demo</module>
   </modules>
 
   <packaging>pom</packaging>
