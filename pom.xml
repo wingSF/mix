@@ -12,6 +12,7 @@
     <module>studyNote</module>
     <module>springboot-rabbit-demo</module>
     <module>springboot-rocket-demo</module>
+      <module>annotation-first-meet</module>
   </modules>
 
   <packaging>pom</packaging>
