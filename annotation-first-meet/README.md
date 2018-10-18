@@ -1,11 +1,11 @@
-#annotation初认识
+# annotation初认识
 * Q1：注解是什么东西
 * Q2：注解有什么作用
 * Q3：如何工作的
 * Q4：适用场景
 * Q5：平时我们加注解都是如何工作的
 
-##注解是什么
+## 注解是什么
 * 注解是元数据的一种表达形式，不属于程序的一部分，但是可以为程序提供数据。
 * 注解不会对标注的程序产生直接影响
 * 像 '@Entity' 这样的就是注解，'@'是标识符，标识符后面的Entity是注解的名称
@@ -29,7 +29,7 @@ class MyClass {
 }
 ```
 
-##注解有什么作用
+## 注解有什么作用
 * Information for the compiler
     * 注解可以用来发现错误或者压制警告
         * @Overried用来表示一个方法，提示编译器，如果父类没有类似的方法，就抛出一个错误
@@ -42,7 +42,7 @@ class MyClass {
 本身该注解不包含任何metadata，仅仅是一个标记。
     
     
-##如何工作的
+## 如何工作的
 * 此处感觉翻译会影响阅读效果，原文添加.重点阅读 [DZone](https://dzone.com/articles/how-annotations-work-java)
 ```text
 Annotations are only metadata and they do not contain any business logic.
@@ -77,7 +77,7 @@ class BusinessLogic {
 }
 ```
 
-##适用场景
+## 适用场景
 我们的常见使用只针对运行时的注解，一般是用来初始化一些元数据。初始化的方式有俩种一种是xml，一种是注解。注解优于xml的好处是离代码足够近。关于适用场景，个人感觉实在人为，例如@Marker这样的用法，就是仁者见仁，智者见智了。
 
 
@@ -85,7 +85,7 @@ class BusinessLogic {
 
 
 
-##参考资料
+## 参考资料
 * [The Java Tutorials From Oracle](https://docs.oracle.com/javase/tutorial/java/annotations/index.html)
 * [DZone](https://dzone.com/articles/how-annotations-work-java)
   
