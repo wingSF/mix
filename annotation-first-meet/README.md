@@ -93,7 +93,7 @@ class BusinessLogic {
     * AnnotationConfigApplicationContext
         * 该类是注解加载的核心类，可查看类的层级结构（IDEA的功能）
     * 代码请参考[spring auto detect component and scanning exanple](http://websystique.com/spring/spring-auto-detection-autowire-component-scanning-example-with-annotations/)
-    * 代码示例
+    * auto detect 核心代码示例，想透彻理解需要深挖底层实现
 ```java
 public class AppMain {
  
@@ -137,7 +137,7 @@ public class AppMain {
 ```
 > 以上扫描只会把被@Component注解标注的类加载到context里面，由于@Controller，@Service等注解被@Component修饰，所以也会被加载。但是消费@Controller和@Service注解的类，不是这个地方。这个体系太大了，先理解到这里，后续更新吧
 
-> 再提一个统一事务的实现，是依赖aop的支持，aspect也是一种注解的consumer方式
+> 再提一个统一事务的实现，是依赖aop查找被注解标识的类，aspect也是一种注解的consumer方式
 ## 参考资料
 * [The Java Tutorials From Oracle](https://docs.oracle.com/javase/tutorial/java/annotations/index.html)
 * [DZone](https://dzone.com/articles/how-annotations-work-java)
