@@ -13,6 +13,7 @@
     <module>springboot-rabbit-demo</module>
     <module>springboot-rocket-demo</module>
       <module>annotation-first-meet</module>
+      <module>message-queue</module>
   </modules>
 
   <packaging>pom</packaging>
