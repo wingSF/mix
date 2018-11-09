@@ -3,7 +3,7 @@ package com.wing.lynne;
 import java.util.Arrays;
 
 
-public class ArraySort {
+public class QuickSort {
 
     private static int[] array = {20, 11, 110, 4, 6, 9, 77, 2, 6, 55, 3, 4, 5, 200};
 
@@ -13,7 +13,7 @@ public class ArraySort {
      * 1.数组切分的时候，生成的新数据长度需要指定为原长度-1，注意俩个都需要指定该长度
      * 2.数组元素聚合的时候，要先把标兵的值拿出来，因为聚合过程中，可能会被覆盖
      */
-    private static void quickSort(int[] array) {
+    private static void quickSortFirst(int[] array) {
 
         //1.特殊数组的处理
         if (array == null || array.length == 0 || array.length == 1) {
@@ -52,10 +52,10 @@ public class ArraySort {
 
         //6.对新产生的数组进行递归处理
         if (biggerArray.length != 0) {
-            quickSort(biggerArray);
+            quickSortFirst(biggerArray);
         }
         if (smallerArray.length != 0) {
-            quickSort(smallerArray);
+            quickSortFirst(smallerArray);
         }
 
         //7.对老数据重新进行赋值操作
@@ -141,14 +141,68 @@ public class ArraySort {
 
         }
 
-
         return;
     }
 
+    /**
+     * 第三个版本的方法
+     * 基于第二个版本进行改进
+     * 第二个版本中，每次数据交换会二个或者三个数据，且三个数据的情况居多，会有性能浪费
+     * 本次改进主要位置为数据交换时的操作步骤
+     */
+    public static void quickSortThird(int[] array, int start, int end) {
+
+
+    }
+
+
+    // 奥哥写的  记录下来
+    //@Author 陈绍奥
+    public void sort(int[] nums, int start, int end) {
+
+        int left = start;   // 必须要保存变量，后面要用 start 和 end
+        int right = end;
+
+        // 递归结束条件
+        // left == right 的时候，两指针重叠，不走while，就是当前 boy
+        if (left > right) {
+            return;
+        }
+
+        int boy = nums[left];   // 士兵出列
+
+        while (left < right) {  // 左右所有都要交换
+
+            while (left < right && nums[right] > boy) {
+                right --;
+            }
+
+            if (left < right) { // 判断没有越界
+                nums[left] = nums[right];
+                left ++;
+            }
+
+            while (left < right && nums[left] < boy) {
+                left ++;
+            }
+
+            if (left < right) {
+                nums[right] = nums[left];
+                right --;
+            }
+
+        }
+        // 这个是递归关键步
+        nums[left] = boy;   // 士兵入列
+
+        int mid = left;
+        sort(nums, start, mid - 1);  // mid 值已经确认了，+1 -1 干两边的事情。
+        sort(nums, mid + 1, end);
+    }
 
     public static void main(String[] args) {
 
-//      quickSort(array);
+//      quickSortFirst(array);
         quickSortSecond(array, 0, array.length - 1);
 
 
