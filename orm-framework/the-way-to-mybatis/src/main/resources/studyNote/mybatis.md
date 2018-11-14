@@ -1,4 +1,8 @@
 # [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html)
+## What is mybatis
+> Mybatis is a first class persistence framework with support for custom sql / stored procedures / advanced mappings.  
+Mybatis eliminates almost all of the jdbc code / manual setting of parameters / retrieval of result  
+Mybatis can use simple XML or Annotations for configuration and map primitives / map interfaces / java pojos to database records
 * 核心对象
     * SqlSessionFactoryBuilder
     * SqlSessionFactory

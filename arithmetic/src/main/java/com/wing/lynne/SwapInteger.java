@@ -19,8 +19,9 @@ public class SwapInteger {
         System.out.println("a = " + a + " ,b = " + b);
 
 //        轻易不要打开尝试，会刷新三观认知的
-//        Integer c = 20;
-//        System.out.println("c = " + c);
+        Integer c = 20;
+        System.out.println("c = " + c);
+        System.out.println(c == a);
     }
 
     private static void swap(Integer a, Integer b) throws NoSuchFieldException, IllegalAccessException {
@@ -60,4 +61,7 @@ public class SwapInteger {
  * 3.Integer类中IntegerCache类的cache[]数组中的值是可以通过反射改变的
  * 4.Field#setAccessible方法只是修改了一个override的判断标志位，在后续的set方法调用时，判断!override如果为false就不再进行权限检查
  * 5.避开IntegerCache的方法，一使用基本数据类型，避开拆装箱，二使用new Integer，这样不会走valueof方法，也不会有IntegerCache的影响
+ * <p>
+ * 结论
+ * 6.永远不要尝试修改Integer，一旦你成功的或者无意识的改掉了，IntegerCache中的cache[]，求队友内心的阴影面积
  */

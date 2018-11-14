@@ -13,6 +13,7 @@
         <module>annotation-first-meet</module>
         <module>message-queue</module>
         <module>rest</module>
+        <module>orm-framework</module>
     </modules>
 
     <packaging>pom</packaging>
