@@ -27,5 +27,11 @@
                 * for (Method method : methods) {
                     * 循环加载当前Type的方法上面带有sqlSource的方法，加入statement集合
     * 结论  
-    > 在使用mybatis时，如果同时使用注解和mapper.xml方式，一定要保证同一个statement只能声明xml或者注解中的一种，多个statement可以混用            
+    > 在使用mybatis时，如果同时使用注解和mapper.xml方式，一定要保证同一个statement只能声明xml或者注解中的一种，多个statement可以混用
+    * another question 非xml加载的时候，调用了xml加载的逻辑，xml加载过程中，已经加载过注解的statement，那非xml加载注解statement的时候会不会报错
+    > 答案肯定是不会报错啦，为什么呢。mybatis的configuration中有一个loadedResources属性  
+    protected final Set<String> loadedResources = new HashSet<String>()  
+    可以认真读下源码，每次加载完xml或者mapper文件的时候，都会将加载的resource写入该set集合，下次加载之前先判断，按需加载  
+    another question 多线程加载的时候，这个判断是不是会出问题？  
+    确实会有问题，但是我们只要控制一个application启动过程中，只有一个SqlSessionFactory.build()调用，就没有问题喽        
                 
