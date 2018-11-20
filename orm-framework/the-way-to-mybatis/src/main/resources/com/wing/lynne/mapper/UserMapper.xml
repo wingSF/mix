@@ -6,4 +6,9 @@
     <select id="findOne" resultType="java.lang.Integer">
       select count(1)+1 from user
     </select>
+
+    <insert id="insertUser" parameterType="com.wing.lynne.po.User">
+      insert into user (name,sex,age,birthday,phone,province,register_time,update_time)
+      values (#{name,jdbcType=VARCHAR},#{sex},#{age},#{birthday},#{phone},#{province},#{registerTime},#{updateTime})
+    </insert>
 </mapper>

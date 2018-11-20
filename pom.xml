@@ -15,6 +15,7 @@
         <module>rest</module>
         <module>orm-framework</module>
         <module>mockito-javadoc-train</module>
+        <module>spring-boot-study-demo</module>
     </modules>
 
     <packaging>pom</packaging>

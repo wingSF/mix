@@ -1,6 +1,7 @@
 package com.wing.lynne.po;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -12,7 +13,8 @@ public class User {
     private int sex;
     private int age;
     private Date birthday;
-    private String phoneNumber;
-    private Province province;
-
+    private String phone;
+    private String province;
+    private Date registerTime;
+    private Date updateTime;
 }

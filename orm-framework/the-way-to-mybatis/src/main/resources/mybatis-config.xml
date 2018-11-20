@@ -3,6 +3,38 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <properties resource="config.properties">
+        <!-- 该配置开启占位符特性 -->
+        <property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/>
+        <!-- example
+        <property name="driver" value="${driver}"/>
+        -->
+
+        <!-- 指定一个默认分隔符，使用与占位符代表没有的时候，给与默认值 -->
+        <property name="org.apache.ibatis.parsing.PropertyParser.default-value-separter" value="?"/>
+        <!-- example
+        <property name="driver" value="${driver?root}"/>
+        -->
+
+    </properties>
+
+    <settings>
+        <!-- 此处有毛毛多的配置，统一封装到了configutation类 -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <!-- 此处是类的别名 -->
+        <typeAlias type="com.wing.lynne.po.User" alias="user"/>
+        <!-- 此处会扫描对应的包路径，然后把所有的java类创建别人，默认类名的首字母小写形式 -->
+        <package name="com.wing.lynne.po"/>
+    </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="com.wing.lynne.typeHandle.MyStringTypeHandle"/>
+    </typeHandlers>
+
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -14,6 +46,7 @@
             </dataSource>
         </environment>
     </environments>
+
     <mappers>
         <mapper resource="com/wing/lynne/mapper/UserMapper.xml"/>
     </mappers>
