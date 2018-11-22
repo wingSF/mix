@@ -54,16 +54,16 @@ public class MainApplication {
         /**---------------第二步：获取SqlSession实例---------------*/
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             //第一种执行mapper中方法的方式
-            Integer number1 = sqlSession.selectOne("com.wing.lynne.mapper.UserMapper.findOne");
-            System.out.println(number1);
-            Integer number2 = sqlSession.selectOne("com.wing.lynne.mapper.UserMapper.findTwo");
-            System.out.println(number2);
+//            Integer number1 = sqlSession.selectOne("com.wing.lynne.mapper.UserMapper.findOne");
+//            System.out.println(number1);
+//            Integer number2 = sqlSession.selectOne("com.wing.lynne.mapper.UserMapper.findTwo");
+//            System.out.println(number2);
             //第二种执行mapper中方法的方式
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-            int one = mapper.findOne();
-            int two = mapper.findTwo();
-            System.out.println(one);
-            System.out.println(two);
+//            int one = mapper.findOne();
+//            int two = mapper.findTwo();
+//            System.out.println(one);
+//            System.out.println(two);
 
         }
 
@@ -109,6 +109,8 @@ public class MainApplication {
             user.setUpdateTime(new Date());
 
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+//            此处将insert也注释掉，可以避免对下面查询的结果的影响
             int i = mapper.insertUser(user);
             System.out.println(i == 1 ? "插入成功" : "插入失败");
 

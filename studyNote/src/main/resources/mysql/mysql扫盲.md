@@ -1,5 +1,7 @@
 #[mysql索引相关by张丰哲](https://www.jianshu.com/p/aa1f0f29b4f8)
 #[mysql索引数据结构by沈剑](https://mp.weixin.qq.com/s/YMbRJwyjutGMD1KpI_fS0A)
+#[未读](https://notes.diguage.com/mysql/)
+#[未读](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)
 
 * mysql读取数据的时候，不是按行读取，而是按Block or Page读取
 * delete表数据是基于行的删除操作，trancate是按照block删除，trancate快～

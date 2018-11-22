@@ -13,7 +13,7 @@ public interface UserMapper {
 
     int insertUser(User user);
 
-    @Select("select name from user where name = #{name}")
+    @Select("select name from user where name like '%${name}%' ")
     String findUserByName(@Param("name") String name);
 
 }
