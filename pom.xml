@@ -17,6 +17,7 @@
         <module>mockito-javadoc-train</module>
         <module>spring-boot-study-demo</module>
         <module>rpc-framework</module>
+        <module>design-pattern</module>
     </modules>
 
     <packaging>pom</packaging>
