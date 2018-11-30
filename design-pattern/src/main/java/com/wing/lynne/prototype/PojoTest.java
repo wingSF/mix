@@ -24,7 +24,7 @@ public class PojoTest {
         //此处是浅复制，对象类型的属性，直接复制了对象的地址值，这样的复制
         System.out.println(clone.getList() == pojo.getList());
 
-/**  ------------------------------------------------------------------------------------------------------------*/
+/**  ------------------------一下部分是深克隆方式一：序列化-----------------------------------------------------------------------------------*/
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -43,6 +43,19 @@ public class PojoTest {
 
         //此处是浅复制，对象类型的属性，直接复制了对象的地址值，这样的复制
         System.out.println(deepClone.getList() == pojo.getList());
+
+
+/**  ------------------------一下部分是深克隆方式二：递归实现clone，重写clone方法-----------------------------------------------------------------------------------*/
+
+        PojoParent pojoParent = new PojoParent();
+
+        Pojo pojo1 = new Pojo();
+
+        pojoParent.setPojo(pojo);
+
+        PojoParent clonePojoParent = (PojoParent) pojoParent.clone();
+
+        System.out.println(pojoParent.getPojo()==clonePojoParent.getPojo());
 
     }
 }
