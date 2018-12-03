@@ -17,4 +17,11 @@
 #代理模式
 * 角色分为 代理角色(proxy)+被代理角色(target)
 * 静态代理，会有硬编码，受限于硬编码，不利于扩展，只能固定的代理某个功能
-* jdk动态代理，一次编码，可以代理target的多个行为
+* jdk动态代理，依赖于InvocationHandler的invoke方法的实现，来进行代理操作
+    * jdk动态代理，基于接口实现
+    * jdk动态代理，生成的proxy无法强转为target类型
+    * jdk动态代理，基于反射，sun的技术
+* cglib动态代理，依赖于MethodInteceptor的intercept方法的实现，来进行代理操作
+    * cglib动态代理，基于字节码实现 
+    * cglib动态代理，生成的proxy可以转换为target类型
+    * cglib动态代理，基于spring的，需要增加spring-core的依赖
