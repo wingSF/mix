@@ -15,7 +15,9 @@ public class LazySafeByConcurrentHashMap {
             beanMap.put(name, new LazySafeByConcurrentHashMap());
 
 //            此处可以使用putIfAbsent保证安全
-//            beanMap.putIfAbsent(name, new LazySafeByConcurrentHashMap());
+//            putIfAbsent虽然是map接口中定义的方法之一，原始意义是当key对应的value不存在的时候，才放入元素
+//            但是Map接口的默认实现是线程不安全的，高并发的情况下会有问题，concurrnet则不会有问题
+            beanMap.putIfAbsent(name, new LazySafeByConcurrentHashMap());
         }
 
 
