@@ -39,4 +39,5 @@
 * hash索引
     * 在Memory引擎中才存在，Innodb和MyISAM中不存在
     * O(1)的查询复杂度，如果范围查找，会退化为O(n)
+* 
 

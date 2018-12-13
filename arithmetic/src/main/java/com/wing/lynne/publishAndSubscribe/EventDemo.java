@@ -23,9 +23,11 @@ public class EventDemo {
         support.addPropertyChangeListener(changeEvent -> System.out.println(changeEvent.getOldValue() + "->" + changeEvent.getNewValue()));
         support.addPropertyChangeListener("age", ageChangeEvent -> System.out.println(ageChangeEvent.getOldValue() + "->" + ageChangeEvent.getNewValue()));
 
-//        support.firePropertyChange("name", "111", "222");
-        support.firePropertyChange("age", "111", "222");
+        support.firePropertyChange("name", "111", "222");
+//        support.firePropertyChange("age", "111", "222");
 
+        System.out.println(person.getAge());
+        System.out.println(person.getName());
 
     }
 
