@@ -19,6 +19,14 @@
     * BeanPostProcessor
         * bean的后置处理器
         * before & after
-    
-    
+* 核心对象
+    * `ResourcePatternResolver`和`XmlBeanDefinitionReader`资源加载
+    * `AbstractRefreshableConfigApplicationContext#configLocations`配置文件的位置
+    * `DefaultListableBeanFactory`实际执行ioc容器启动的类
+    * `BeanDefinition`bean的描述
+    * `DefaultListableBeanFactory#beanDefinitionMap`ioc容器中beandefinition的存放位置
+    * `BeanWrapper`原声bean的包装对象
+         
+
+> 在spring框架中的bean，getName获取的可能是原始bean的名称，但实质是一个代理对象,这个时候如果要对这个bean进行一些原始注解的判断，可以借用`AopProxyUtils#getSingletonTarget`方法获取原始数据，但是在反射调用的过程中，由于要保证代理方法的执行，要使用代理对象
     

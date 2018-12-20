@@ -9,6 +9,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  *  通过cas（compare and swap）实现了原子递增
  *  即将a++的三个步骤，做到了线程安全
  *
+ *
+ * 注意:cas及compre and swap
+ * 比较内存中的某个值是否与预期值一样，如果一样就更新为新的值，存在aba问题
+ *
  */
 public class AtomicIncrement {
 

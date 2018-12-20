@@ -60,3 +60,15 @@
 * 通过viewResolver解析mv，然后响应给客户端（spelView）
     * `processDispatchResult`
     * `view.render(mv.getModelInternal(), request, response);`处理页面转换
+
+## 核心对象总结
+* HandlerMapping
+    * RequestMappingHandlerMapping
+* RequestMappingInfo
+* HandlerMethod
+* HandlerAdapter
+    * HttpRequestHandlerAdapter
+* ViewResolver
+* HandlerExecutionChain
+* ModelAndView 
+* MethodParameter
