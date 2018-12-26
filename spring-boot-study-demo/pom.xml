@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-boot-traditional-web-servlet</module>
+        <module>spring-boot-mvc-resource-demo</module>
     </modules>
 
 </project>
