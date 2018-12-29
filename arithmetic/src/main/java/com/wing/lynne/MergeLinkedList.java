@@ -9,32 +9,84 @@ public class MergeLinkedList {
     public static void main(String[] args) {
 
         LinkedDemo targetElement1 = new LinkedDemo(1);
-//        LinkedDemo targetElement2 = new LinkedDemo(11);
-//        LinkedDemo targetElement3 = new LinkedDemo(111);
-//        LinkedDemo targetElement4 = new LinkedDemo(1111);
+        LinkedDemo targetElement2 = new LinkedDemo(11);
+        LinkedDemo targetElement3 = new LinkedDemo(111);
+        LinkedDemo targetElement4 = new LinkedDemo(1111);
         LinkedDemo targetElement5 = new LinkedDemo(11111);
 
-//        targetElement1.next = targetElement2;
-//        targetElement2.next = targetElement3;
-//        targetElement3.next = targetElement4;
-//        targetElement4.next = targetElement5;
-        targetElement1.next = targetElement5;
+        targetElement1.next = targetElement2;
+        targetElement2.next = targetElement3;
+        targetElement3.next = targetElement4;
+        targetElement4.next = targetElement5;
 
-        LinkedDemo newElement1 = null;
-//        LinkedDemo newElement1 = new LinkedDemo(2);
-//        LinkedDemo newElement2 = new LinkedDemo(22);
-//        LinkedDemo newElement3 = new LinkedDemo(222);
-//        LinkedDemo newElement4 = new LinkedDemo(2222);
-//        LinkedDemo newElement5 = new LinkedDemo(22222);
+        LinkedDemo newElement1 = new LinkedDemo(2);
+        LinkedDemo newElement2 = new LinkedDemo(22);
+        LinkedDemo newElement3 = new LinkedDemo(222);
+        LinkedDemo newElement4 = new LinkedDemo(2222);
+        LinkedDemo newElement5 = new LinkedDemo(22222);
 
-//        newElement1.next = newElement2;
-//        newElement2.next = newElement3;
-//        newElement3.next = newElement4;
-//        newElement4.next = newElement5;
+        newElement1.next = newElement2;
+        newElement2.next = newElement3;
+        newElement3.next = newElement4;
+        newElement4.next = newElement5;
 
         printLinkedDemo("targetElement1:", targetElement1);
         printLinkedDemo("newElement1:", newElement1);
 
+/**================调用排序方法区域，注意每次执行，只允许一个方法合并链表===================================*/
+//        LinkedDemo sortResult1 = sort1(targetElement1, newElement1);
+//        printLinkedDemo("合并结果:", sortResult1);
+
+        LinkedDemo sortResult2 = sort2(targetElement1, newElement1);
+        printLinkedDemo("合并结果:", sortResult2);
+/**===============================================================================================*/
+
+    }
+
+    /**
+     * create by 易波
+     * @param targetElement1
+     * @param newElement1
+     * @return
+     */
+    private static LinkedDemo sort2(LinkedDemo targetElement1, LinkedDemo newElement1) {
+
+        if (targetElement1 == null) {
+            return newElement1;
+        }
+
+        if (newElement1 == null) {
+            return targetElement1;
+        }
+
+        LinkedDemo result = null;
+
+        if (newElement1.value <= targetElement1.value) {
+
+            result = newElement1;
+
+            newElement1.next = sort2(newElement1.next, targetElement1);
+
+        } else {
+
+            result = targetElement1;
+
+            targetElement1.next = sort2(targetElement1.next, newElement1);
+
+        }
+
+        return result;
+    }
+
+    /**
+     * 自己写的实现，都tm不好意思给别人看了。。。。。。。
+     * 留着把，这就是耻辱
+     *
+     * @param targetElement1 目标链表的表头
+     * @param newElement1    新链表的表头
+     * @return
+     */
+    private static LinkedDemo sort1(LinkedDemo targetElement1, LinkedDemo newElement1) {
 
         //第一步，确定新链表的第一个元素在目标链表中的位置
         //第二步，递归合并链表元素
@@ -42,36 +94,29 @@ public class MergeLinkedList {
          * 为什么要分为俩步走，第一种情况比较极端，此时新链表的头节点在目标链表中的相对外置不固定
          * 当把新链表的第一个元素插入目标链表的时候，可以确定接下来新插入的元素，一定在之前刚插入的元素的下方
          */
-
-
         if (targetElement1 == null) {
-            printLinkedDemo("合并结果1:", newElement1);
-            return;
+            return targetElement1;
         }
 
         if (newElement1 == null) {
-            printLinkedDemo("合并结果2:", targetElement1);
-            return;
+            return targetElement1;
         }
 
         //将新链表中的第一个元素插入到目标链表中
         LinkedDemo[] tempMergeArray = insertFirstToTargetList(targetElement1, newElement1);
 
         if (tempMergeArray[1] == null) {
-            printLinkedDemo("合并结果3:", tempMergeArray[0]);
-            return;
+            return targetElement1;
         }
 
         //如有需要，继续合并链表，此时只有可能新链表为空，进行非空校验
         if (tempMergeArray[0] == null) {
-            printLinkedDemo("合并结果4", tempMergeArray[2]);
-            return;
+            return targetElement1;
         }
 
         mergeLinkedList(tempMergeArray[0], tempMergeArray[1]);
 
-        printLinkedDemo("合并结果5:", tempMergeArray[2]);
-
+        return targetElement1;
     }
 
     /**
