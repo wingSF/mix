@@ -242,24 +242,26 @@ public class MergeLinkedList {
 
     }
 
-}
+    static class LinkedDemo {
 
-class LinkedDemo {
+        public int value;
+        public LinkedDemo next;
 
-    public int value;
-    public LinkedDemo next;
+        public LinkedDemo(int value) {
+            this.value = value;
+        }
 
-    public LinkedDemo(int value) {
-        this.value = value;
+        @Override
+        public String toString() {
+            return "LinkedDemo{" +
+                    "value=" + value +
+                    '}';
+        }
     }
 
-    @Override
-    public String toString() {
-        return "LinkedDemo{" +
-                "value=" + value +
-                '}';
-    }
 }
+
+
 
 
 
