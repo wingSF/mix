@@ -1,4 +1,4 @@
-package com.wing.lynne;
+package com.wing.lynne.atomic;
 
 import org.junit.Test;
 
