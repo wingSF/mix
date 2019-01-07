@@ -1,5 +1,6 @@
 1.redis数据结构
     String，hash，list，set，sortedSet
+
     HyperLogLog，Geo。Pub/Sub
 
     Redis Moudle
