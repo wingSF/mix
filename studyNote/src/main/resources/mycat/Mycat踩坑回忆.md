@@ -3,6 +3,7 @@
     * 使用mysql不指定order by 条件的时候，使用limit start,pageSize 默认采用主键排序
     * 使用mycat不指定order by 条件的时候，mycat只会把数据查询出来，然后merge结果，并返回
         * 这个地方注意了，没有排序的，所以每次返回的数据是动态的，坑爹不，有mycat的可以自己试试看
+            * 如果没发现，请将offset和pagesize调大
 
 
 # mycat翻页二
