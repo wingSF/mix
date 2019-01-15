@@ -1,4 +1,4 @@
-package com.wing.lynne;
+package com.wing.lynne.collectionDemo;
 
 import java.util.ArrayList;
 import java.util.List;
