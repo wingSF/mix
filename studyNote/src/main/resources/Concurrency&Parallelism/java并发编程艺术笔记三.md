@@ -25,22 +25,27 @@
         * 通过流水线等技术实现多条指令同时并行执行的并行技术
     * 处理器的重排序
         * 由于读写的时候可能发生在缓冲区，可能发生在主内存，所以看起来是在乱序执行
-* java如何控制重排序
-    * java编译器会禁止特定类型编译器重排序
-    * 通过编译器在指令中插入内存屏障控制处理器的重排序
+* 现代处理器都会允许写-读指令重排序，但是存在数据依赖的情况不允许重排序
+
 * 写缓冲区
     * 现代处理器，将临时保存的数据写入写缓冲区。这样可以保证指令不切换到主内存进行等待而继续执行
     * 通过批量刷新的方式，减少了内存对总线的占用
     * 坏处:由于写缓冲区只对当前cpu可见，会导致处理器对读写指令的执行顺序与预期不同
-* 现代处理器都会允许写-读指令重排序，但是存在数据依赖的情况不允许重排序
-* 为了控制重排序，java通过插入内存屏障，来解决问题
-* 内存屏障
-    * loadload:load1;loadload;load2-->load1的指令优先于load2及后续指令的执行
-    * storestore:store1:storestore:store2-->store1的指令刷新到内存，store2才能执行
-    * loadstore:load1:loadstore:store2-->load1优先与store2的执行
-    * storeload:store1:storeload:load2-->store1操作完成后，才能load2
+    > 会出现对一个数据写入，从代码上看已经完成了，但是实际上只是写的了缓冲区，只有真正刷新到主内存，才算写入过程完成。所以看起来就像在乱序执行读写操作
+    
 * happens-before原则
     * 一个线程中的每个操作，都先行发生于当前线程的后续其它操作
     * 对一个锁的解锁操作，先行发生与随后对这个锁的加锁//todo不理解啊
     * 对一个volatile的写，先行发生与后续对这个volatile的读//todo不理解啊
     * 如果a 先行发生与b ，b 先行发生与 c ，则 a 先行发生与 c
+    > happens-before原则仅仅保证俩个操作的操作结果的可见性，不能理解为执行顺序
+
+* 为了控制重排序，java通过插入内存屏障，来解决问题
+* 内存屏障的作用
+    * java编译器会禁止特定类型编译器重排序
+    * 通过编译器在指令中插入内存屏障控制处理器的重排序
+* 内存屏障
+    * loadload:load1;loadload;load2-->load1的指令优先于load2及后续指令的执行
+    * storestore:store1:storestore:store2-->store1的指令刷新到内存，store2才能执行
+    * loadstore:load1:loadstore:store2-->load1优先与store2的执行
+    * storeload:store1:storeload:load2-->store1操作完成后，才能load2
