@@ -1,0 +1,14 @@
+syntax="proto2";
+
+package com.wing.lynne.po.proto;
+
+option java_package = "com.wing.lynne.po.proto";
+option java_outer_classname = "User";
+
+message UserProto{
+
+    required string name = 1;
+    required int32 age = 2;
+
+}
+

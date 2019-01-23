@@ -15,6 +15,7 @@
     <modules>
         <module>dubbo-my-demo</module>
         <module>tcp-udp-demo</module>
+        <module>serialize-demo</module>
     </modules>
 
 </project>
