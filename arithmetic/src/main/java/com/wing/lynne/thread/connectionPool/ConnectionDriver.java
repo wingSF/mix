@@ -22,7 +22,7 @@ public class ConnectionDriver {
     public static final Connection createConnection() {
 
         return (Connection) Proxy.newProxyInstance(ConnectionDriver.class.getClassLoader(),
-                new Class[]{ConnectionDriver.class}, new InvocationHandImpl());
+                new Class[]{Connection.class}, new InvocationHandImpl());
 
     }
 }
