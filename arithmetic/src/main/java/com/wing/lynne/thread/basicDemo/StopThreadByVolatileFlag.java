@@ -21,16 +21,20 @@ public class StopThreadByVolatileFlag {
     //    是否用volatile修饰共享变量
     private static boolean flag = true;
 
-    private static Object object  = new Object();
+//    静态对象锁
+//    private static Object object  = new Object();
 //    private static volatile  boolean flag = true;
 
     public static void main(String[] args) throws InterruptedException {
+
+//        main线程定义的锁
+//        final Object object1 = new Object();
 
         Thread thread = new Thread(() -> {
             while (flag) {
 
                 //过一个类锁可以暂停线程，对象锁不行  继续留着疑问
-                synchronized (object) {
+                synchronized (System.class) {
 
                 }
 //                System.out.println(Thread.currentThread().getName() + " running");
