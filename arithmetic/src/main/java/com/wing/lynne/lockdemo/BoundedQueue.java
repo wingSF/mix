@@ -1,5 +1,6 @@
 package com.wing.lynne.lockdemo;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -48,7 +49,7 @@ public class BoundedQueue {
                 isEmpty.await();
             }
 
-            result = items[currentIndex];
+            result = items[currentIndex - 1];
             currentIndex--;
 
             isFull.signal();
@@ -58,5 +59,41 @@ public class BoundedQueue {
 
 
         return result;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+        BoundedQueue boundedQueue = new BoundedQueue(10);
+
+        for (int i = 0; i < 11; i++) {
+            new Thread(() -> {
+                try {
+                    boundedQueue.add(10);
+                    System.out.println(Thread.currentThread().getName() + "添加成功");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+
+        TimeUnit.SECONDS.sleep(5);
+
+        boundedQueue.remove();
+
+        for (int i = 0; i < 11; i++) {
+            new Thread(() -> {
+                try {
+                    boundedQueue.remove();
+                    System.out.println(Thread.currentThread().getName() + "移除成功");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+
+        TimeUnit.SECONDS.sleep(5);
+
+        boundedQueue.add(10);
+
     }
 }
