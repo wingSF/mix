@@ -39,13 +39,41 @@
 * aqs提供了同步状态的控制/线程的排队/等待和唤醒操作，面向开发锁的程序员，而锁基于aqs，提供面向锁的使用者
 * 使用了模版方法设计模式，锁的实现者需要重写抽象方法
 * aqs api分为独占式/共享式/独占+超时式3类型
+    * acquire 独占+阻塞
+        * tryAcquire 尝试独占式获取
+        * release   释放
+    * acquireInterruptibly  独占+阻塞+响应中段 
+    * acquireShared 共享+阻塞
+        * tryAcquireShared 尝试共享式获取  
+        * releaseShared
+    * acquireSharedInterruptibly 共享+阻塞+响应中断
+    * tryAcquireNanos   独占+超时时间获取锁
+    * tryAcquireSharedNanos  共享+超时
+> 读源码的收获，对&& 或者 ||的新理解  
+之前一直固执的认为是，俩边条件都满足，然后得到条件的值，再进行后续逻辑  
+但是在源码中，分析到了一些逻辑的味道，ex: jdk1.8 AbstractQueuedSynchronizer.class acquire方法  
+  
+```java
+public final void acquire(int arg) {
+        if (!tryAcquire(arg) &&
+            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+            selfInterrupt();
+    }
+```
+
+> 先调用tryAcquire方法，根据返回结果决定是否执行后续逻辑。
 
 ## ReentrantLock
+* 重入锁
+    * 已经获取锁a的线程，再次尝试获取锁a，非重入锁会阻塞，重入锁可以继续执行
+    * synchronized默认是可重入的
 * 核心方法
     * lock  
     * unlock
 * 内部核心类 Sync extends AbstractQueuedSynchronizer
     * 核心实现 FairSync/NonfairSync
+        * 公平和非公平，是否先等待的线程先获取锁资源
+        * 非公平锁的tps会比公平锁的高，但是可能会单个线程等待较长时间，叫"饥饿"
     > 在NonfairSync中使用cas操作来更新数据状态
 * CAS操作具有volatile读和 volatile写的内存语义
     * cas实际调用的是cmpxchg的指令，根据是否是单处理器运行，确定是否增加lock前缀指令
@@ -58,6 +86,22 @@
     * 声明共享变量为volatile
     * CAS更新实现同步
     
+## 读写锁
+* 数据被访问的概率比被修改的概率大很多，所以让读读并行，读写/写写串行能提升效率
+* 锁内部持有俩把锁，一个读锁，一个写锁，根据一个32位的状态位，高16位读状态，低16位写状态
+* 写锁，可重入，排他
+    * 如果读锁已经被获取，等待
+    * 如果获取写锁的线程不是自身，等待
+* 读锁，可重入，共享
+    * 如果有写锁，等待
+    
+## lockSupport
+* 用来阻塞/唤醒线程
+
+## Condition
+* 可以在一个对象上维护多个condition等待队列，需要被唤醒的时候，将线程从等待队列移动到同步队列中
+* 配合Lock接口，用于实现等待/通知模式
+
 # final
 * 规则
     * 当final域为基本数据类型时
