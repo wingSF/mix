@@ -70,6 +70,23 @@
             * 条件3：该类对应的java.lang.Class对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法
             * 满足以上3个条件，才 可以 回收。是否回收还要受jvm参数-Xnoclassgc参数的控制
             * 在大量使用反射、动态代理、CGLib的ByteCode框架、动态生成jsp以及OSGI这类频繁自定义ClassLoader的场景都需要有类卸载功能
+* 垃圾收集器
+    * 单线程-stop the world
+    * 多线程-stop the world
+    * 多线程+复制算法
+    
+    * 单线程+老年代
+    * 多线程+老年代
+    
+    * CMS（Concurrent Mark Sweep）- 标记清除 - 会有碎片
+    * G1（Garbge First）- 标记整理 - 动态预测 - 优先回收价值高的区域
+    
+* Minor & Major
+    * Minor 新生代
+    * Major/full gc 老年代
+        * 大对象
+        * 存活时间长
+    
 
 
 
