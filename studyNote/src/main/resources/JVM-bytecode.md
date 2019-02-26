@@ -1,6 +1,6 @@
 # 字节码
-> 缘起与奥哥提问  
-Q1:在java中，try catch finally中如何实现，保证来finally一定会被执行
+> 缘起于奥哥提问  
+Q1:在java中，try catch finally中如何实现，保证来finally一定会被执行  
 A1:[认真读此文慢慢体会](http://blog.jamesdbloom.com/JavaCodeToByteCode_PartTwo.html#try_catch_finally)，如果可以自己写一段代码，javap -v查看class文件(不是.java)  
 Q2:奥哥又说要在try里面return，catch里面return，一顿操作猛如虎  
 A2:认真学好字节码，此处暂无特别好的推荐，先开始最基础的
@@ -12,7 +12,7 @@ lconst 操作long型
 fconst 操作float型  
 dconst 操作double型
 * 例子
-    * iconst_1
+    * iconst_1  
     ⚠️上述的iconst_1中的1不能认为是操作数，整体是一个指令
     
 ## push系列
