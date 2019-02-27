@@ -60,3 +60,80 @@ dconst 操作double型
 
 > 总结:要想明确的知道try catch finally语句块中的，各种变态return exception，最好看字节码  
 ex: TryCatchExceptionDemo.java
+
+## exception处理过程
+
+* 方法源码
+```java
+public static void testMethod(ReentrantLock lock) throws InterruptedException {
+        //            lock.lock();
+        lock.lockInterruptibly();
+
+        try {
+            threadName = Thread.currentThread().getName();
+        } finally {
+            lock.unlock();
+        }
+    }
+```
+* 方法字节码
+```java
+public static void testMethod(java.util.concurrent.locks.ReentrantLock) throws java.lang.InterruptedException;
+    descriptor: (Ljava/util/concurrent/locks/ReentrantLock;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=2, args_size=1
+         0: aload_0
+         1: invokevirtual #15                 // Method java/util/concurrent/locks/ReentrantLock.lockInterruptibly:()V
+         4: invokestatic  #16                 // Method java/lang/Thread.currentThread:()Ljava/lang/Thread;
+         7: invokevirtual #17                 // Method java/lang/Thread.getName:()Ljava/lang/String;
+        10: putstatic     #18                 // Field threadName:Ljava/lang/String;
+        13: aload_0
+        14: invokevirtual #19                 // Method java/util/concurrent/locks/ReentrantLock.unlock:()V
+        17: goto          27
+        20: astore_1
+        21: aload_0
+        22: invokevirtual #19                 // Method java/util/concurrent/locks/ReentrantLock.unlock:()V
+        25: aload_1
+        26: athrow
+        27: return
+      Exception table:
+         from    to  target type
+             4    13    20   any
+      LineNumberTable:
+        line 30: 0
+        line 33: 4
+        line 35: 13
+        line 36: 17
+        line 35: 20
+        line 36: 25
+        line 37: 27
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      28     0  lock   Ljava/util/concurrent/locks/ReentrantLock;
+      StackMapTable: number_of_entries = 2
+        frame_type = 84 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 6 /* same */
+    Exceptions:
+      throws java.lang.InterruptedException
+}
+```
+* 简单介绍(本次只按照代码实际逻辑分析字节码)
+    * 0: aload_0
+        * 从本地变量表把第0个对象，及lock对象推到栈顶
+    * 1: invokevirtual #15                 // Method java/util/concurrent/locks/ReentrantLock.lockInterruptibly:()V
+        * 对应代码lock.lockInterruptibly();
+    * 由于代码的控制，t1线程会被外部中断，后续会抛出InterruptException(中断异常)
+    * 根据异常的类型，去 Exception table中根据from to type定位异常的处理指令为20
+    * 20: astore_1
+        * 将异常对象保存到本地变量表的第1个位置(第0个后面的那个)
+    * 21: aload_0
+        * 将本地变量表中的第0个对象推到栈顶(lock对象)
+    * 22: invokevirtual #19                 // Method java/util/concurrent/locks/ReentrantLock.unlock:()V
+        * 调用lock的unlock方法
+    * 25: aload_1
+        * 加载本地变量表的第1个对象(异常对象)
+    * 26: athrow  
+        * 抛出异常对象，方法执行结束
+        

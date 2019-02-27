@@ -12,28 +12,28 @@ public class LockInterruptDemo {
         lock.lock();
         Thread t1 = new Thread(() -> {
 
-//            lock.lock();
             try {
-
-                lock.lockInterruptibly();
-
-                threadName = Thread.currentThread().getName();
-                System.out.println(Thread.currentThread().getName() + " wake up from time waiting");
-            } catch (Exception e) {
-
-                System.out.println(Thread.currentThread().getName() + " catch exception");
-
-            } finally {
-
-
+                testMethod(lock);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-            System.out.println(Thread.currentThread().getName() + " going to die");
         }, "t1");
         t1.start();
         TimeUnit.SECONDS.sleep(3);
         t1.interrupt();
 
+    }
+
+    public static void testMethod(ReentrantLock lock) throws InterruptedException {
+        //            lock.lock();
+        lock.lockInterruptibly();
+
+        try {
+            threadName = Thread.currentThread().getName();
+        } finally {
+            lock.unlock();
+        }
     }
 
 }
