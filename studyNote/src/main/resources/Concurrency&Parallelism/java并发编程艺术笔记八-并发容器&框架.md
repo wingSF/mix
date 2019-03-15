@@ -11,3 +11,10 @@
 * put扩容：按需扩容，hashmap是整体扩容，而ConcurrentHashMap是按照segment扩容
 
 ## [推荐阅读](http://www.importnew.com/28263.html)
+
+# Queue队列
+* 某些场景下，需要线程安全的队列，这种队列一般分为俩种，阻塞队列和非阻塞队列
+    * 阻塞队列
+        * 使用锁实现的队列进出控制
+    * 非阻塞队列
+        * 使用循环CAS实现的队列进出控制
