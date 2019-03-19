@@ -6,6 +6,8 @@ import java.util.List;
 /**
  * ArrayList使用不当，导致的bug
  *
+ * todo
+ *
  * ArrayList的add方法默认添加到末位
  * ArrayList的add(int index,Object obj)方法
  *  先确认数据容量能否放得下新元素
