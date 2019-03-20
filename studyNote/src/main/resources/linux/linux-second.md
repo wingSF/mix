@@ -35,3 +35,19 @@
     * 设置密码
 * userdel
     * -r 递归删除
+* echo
+    * 用于回显数据
+    * 设置hello=world  echo hello || echo $hello
+* env
+    * 展示当前shell的属性
+* history
+    * 用于查询历史输入的命令
+    > 在e福州项目中，鸡贼的奥哥通过这个命令找到了，数据库的用户名密码
+* 上翻/下翻/向前/向后/行首/行末/删除光标后
+    * ctrl+p(previous)
+    * ctrl+n(next)
+    * ctrl+b(before)
+    * ctrl+f(aFter)
+    * ctrl+a(first letter ???)
+    * ctrl+e(end)
+    * ctrl+d(delete)
