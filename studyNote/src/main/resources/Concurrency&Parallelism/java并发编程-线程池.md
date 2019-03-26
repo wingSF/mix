@@ -15,4 +15,9 @@
             * (0,Integer.MAX_VALUE,60L,SECONDS,new SynchronousQueue())
         > new LinkedBlockingQueue()--> capacity = Integer.MAX_VALUE
         new SynchronousQueue()  --> 特殊队列，最多只有一个元素存在，存在多个线程等待
+
+# 问题
+* Java线程池既然是线程池，他是如何复用创建的线程的。(from 奥哥...)
+    * //todo
+
         

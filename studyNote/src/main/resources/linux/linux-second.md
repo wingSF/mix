@@ -51,3 +51,24 @@
     * ctrl+a(first letter ???)
     * ctrl+e(end)
     * ctrl+d(delete)
+* which 
+    * 可以用于查看命令位置  
+* rmdir
+    * 删除只有.和..的目录
+    > .表示当前目录  
+    ..表示上级目录
+* mkdir
+    * 创建文件夹
+    * -p 递归创建 mkdir -p aaa/bbb/ccc
+* touch
+    * 用于创建一个空文件
+    * 用于更新某个文件的操作时间
+* mv 
+    * 重命名文件
+    * 移动文件
+* cat/more/less
+    * cat 查看
+    * more的翻页速度比less的要快
+* tree
+    * 需要安装插件
+    * 可以很清晰的查看目录内部的结构
