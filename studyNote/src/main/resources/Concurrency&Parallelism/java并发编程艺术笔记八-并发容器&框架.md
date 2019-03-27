@@ -14,7 +14,7 @@
 
 # Queue队列
 * 类图
-    * ![avatar](/image/Queue类图.png)
+    * ![avatar](https://github.com/wingSF/mix/blob/master/studyNote/src/main/resources/Concurrency%26Parallelism/image/Queue%E7%B1%BB%E5%9B%BE.png)
 > 再次深刻理解了Abs*抽象类的作用。接口用于定义行为，抽象类负责实现接口中提到的通用的行为，具体的实现类要负责特定方法的真正实现。
 * 核心接口及抽象类
     * Deque
