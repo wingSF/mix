@@ -75,3 +75,18 @@
 * tree
     * 需要安装插件
     * 可以很清晰的查看目录内部的结构
+    * sudo apt-get install tree
+* head
+    * 查看一个文件的前几行
+    * head -10 pom.xml
+* tail 
+    * 查看文件的末尾 
+* ln
+    * 创建符号链接
+    * -s参数创建的是软连接
+* wc
+    * word count
+    > 59467@DESKTOP-FB60KJ2 MINGW64 /c/wing/myWorkspace/mix (master)  
+    $ wc pom.xml  
+    25  27 951 pom.xml
+    * 上述中25表示文件的行数，27表示单词数，951表示字节数
