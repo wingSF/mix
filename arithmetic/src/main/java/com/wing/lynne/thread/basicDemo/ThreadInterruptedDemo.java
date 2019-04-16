@@ -1,8 +1,5 @@
 package com.wing.lynne.thread.basicDemo;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -13,13 +10,13 @@ public class ThreadInterruptedDemo {
     public static void main(String[] args) throws InterruptedException {
 
 
-        Thread thread = new Thread(()->{
+        Thread thread = new Thread(() -> {
 
-            while(!Thread.currentThread().isInterrupted()){
-                System.out.println(Thread.currentThread().getName()+" 死循环ing");
+            while (!Thread.currentThread().isInterrupted()) {
+                System.out.println(Thread.currentThread().getName() + " 死循环ing");
             }
 
-            System.out.println(Thread.currentThread().getName()+" 将要结束");
+            System.out.println(Thread.currentThread().getName() + " 将要结束");
 
         });
 
