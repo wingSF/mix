@@ -106,3 +106,52 @@
     * 查看磁盘空间
 * du
     * 查看文件大小
+* find
+    * 查找文件
+    * find 目录地址 -name  文件名称
+    > 59467@DESKTOP-FB60KJ2 MINGW64 ~/Desktop  
+    $ find . -name config*  
+    ./config.txt
+* grep
+    * 内容查找
+    * grep [option] pattern [File...]
+    * option
+        * -r:递归
+        * -n:显示行号
+        * -c:显示出现次数
+    > grep "11111" ./* -r  
+    ./config.txt:11111  
+    Binary file ./local-parquet-reader-1.0.0.jar matches
+* mount
+    * 挂在/dev下的某个块设备到/mnt,一般使用/mnt作为挂载点
+    > 因为新插入的u盘是块设备，不能cd进入进行操作，只能通过挂载到某个目录下，进行操作
+    * sudo fdisk -l
+        * 用于获取新插入设备的名称
+    * sudo mount /dev/${新设备名称} /mnt
+    * sudo umount /mnt
+        * 主要要退出
+* dd
+    * 注意不是vim下的dd删除，是一个命令行执行的命令，功能类似cp
+    * dd if=sourceFile of=targetFile
+    > if是input file的意思|of是output file的意思
+    * 常用于光盘资源拷贝，普通cp拷贝的结果是文件，dd拷贝的结果是.iso文件   
+* tar
+    * tar z|j c|x vf    目标文件名  源文件或目录名称
+    * z是tar.gz | j是tar.bz2 ，没有这俩个选项只归档，不压缩
+    * c是创建压缩包 | x是解压缩
+    * 解压缩的时候，-C可以指定解压缩目录
+* rar
+    * rar a -r 目标文件名 源文件或目录名称
+    * unrar x 压缩包
+* zip
+    * zip target original
+    * unzip target
+* 源码安装过程
+    * ./configure
+        * 环境检查等
+    * make
+        * 编译源码
+    * sudo make install
+        * 安装
+    * sudo make distclean
+        * 卸载
