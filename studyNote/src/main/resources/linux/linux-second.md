@@ -23,6 +23,7 @@
     * 通过source|. 可以生效
 * kill signnum pid
     * 命令本身不是杀死的意思，而是向某个pid发送一个信号
+    * kill -l 用来查看kill列表
 * cd -
     * 可以实现俩个目录之间来回切换，通过env属性中的oldpwd实现
 * useradd
