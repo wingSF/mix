@@ -82,6 +82,16 @@
                 * 用于添加sync后继节点
                 * 用于添加condition后继节点
     * ConditionObject
+        * 是Condition接口的一个实现，作为AQS中锁的基本实现
+        * 该类是可序列化的，但是所有的field都是transient修饰的，所以反序列化该队列，拿不到waiters信息
+        * field
+            * ```private transient Node firstWaiter;```
+                * condition队列的头
+            * ```private transient Node lastWaiter;```
+                * condition队列的尾
+        * method    
+            * 暂时跳过
+            * //todo 
 * 核心方法介绍
     * 先来点简单的
         * 见名知意型
@@ -100,28 +110,39 @@
             * ```private final boolean parkAndCheckInterrupt```
                 * 挂起当前线程，直到被中断或者被别的线程unpark
                 * 返回当前线程的中断标志位
-               
-            * ```public final boolean hasQueuedThreads```
-                * 判断head和tail是否相等，返回
-            * ```public final boolean hasContended()```
-                * 判断head节点是否为null
-            * ```public final Thread getFirstQueuedThread | private Thread fullGetFirstQueuedThread```
-                * 第一个方法调用第二个方法，获取最早进入队列的线程
-            * ```public final boolean isQueued(Thread thread)```
-                * 从tail开始遍历prev，如果发现某个节点的thread是入参，则返回true，否则返回false
-            * ```final boolean apparentlyFirstQueuedIsExclusive```
-                * //todo
-            * ```public final boolean hasQueuedPredecessors```
-                * 返回队列当中是否有等待的线程
-            * ```public final int getQueueLength ```
-                * 从tail开始遍历prev，只要节点的thread不为null，就+1，最后返回计数器
-            * ```public final Collection<Thread> getQueuedThreads```
-                * 从tail开始遍历prev，只要节点的thread不为null，就加入集合，然后返回该集合
-            * 以下俩个方法，通过调用节点的isShared()，来决定是否加入集合
-                * ```public final Collection<Thread> getExclusiveQueuedThreads```
-                * ```public final Collection<Thread> getSharedQueuedThreads```
-            * ```toString```
-                * 返回当前的status，queue是否为空
+              
+            * Queue inspection methods   
+                * ```public final boolean hasQueuedThreads```
+                    * 判断head和tail是否相等，返回
+                * ```public final boolean hasContended()```
+                    * 判断head节点是否为null
+                * ```public final Thread getFirstQueuedThread | private Thread fullGetFirstQueuedThread```
+                    * 第一个方法调用第二个方法，获取最早进入队列的线程
+                    * //todo，第二个方法中有重复代码，这个还需要跟进分析
+                * ```public final boolean isQueued(Thread thread)```
+                    * 从tail开始遍历prev，如果发现某个节点的thread是入参，则返回true，否则返回false
+                * ```final boolean apparentlyFirstQueuedIsExclusive```
+                    * //todo
+                * ```public final boolean hasQueuedPredecessors```
+                    * 返回队列当中是否有等待的线程
+                    
+            * Instrumentation and monitoring methods
+                * ```public final int getQueueLength ```
+                    * 从tail开始遍历prev，只要节点的thread不为null，就+1，最后返回计数器
+                * ```public final Collection<Thread> getQueuedThreads```
+                    * 从tail开始遍历prev，只要节点的thread不为null，就加入集合，然后返回该集合
+                * 以下俩个方法，通过调用节点的isShared()，来决定是否加入集合
+                    * ```public final Collection<Thread> getExclusiveQueuedThreads```
+                    * ```public final Collection<Thread> getSharedQueuedThreads```
+                * ```toString```
+                    * 返回当前的status，queue是否为空
+            
+            * Internal support methods for Conditions
+                * ```final boolean isOnSyncQueue(Node node) | private boolean findNodeFromTail(Node node) ```   
+                    * 俩个方法配合，判断某个node是否在sync queue上
+                * ```final boolean transferForSignal(Node node)```
+                    * 把一个节点从codition queue转移到sync queue
+                * 
         * 单独看懂，后期需要结合别的方法加深整体理解的
             * ```private void setHead(Node node)```
                 * 将某个node，设置为头，直接出队，只应该被acquire方法调用
@@ -147,6 +168,7 @@
                 * 初始化完成后，进行node入队操作
                     * 先将tail保存的对象赋值给方法入参node的prev
                     * CAS更新tail，从原来的t(old tail)变成node(new tail)，如果操作成功，设置t的next为node，然后返回。如果失败，说明tail已经别的线程修改，需要重新获取tail，重试，直到成功
+                * 最后返回原先的尾巴节点tail，即现在tail节点的前驱节点
                 * 被调用位置
                     * ```addWaiter```  
                     * ```transferForSignal```
@@ -155,3 +177,15 @@
                 * 创建节点对象并加入等待队列，共享还是排他由参数决定
                 * 如果tail节点不为空，操作与enq方法的后半部分一致，然后返回新创建node对象
                 * 如果tail节点为空，直接调用enq方法，然后返回新创建node对象
+    * 重点来喽
+        > AQS自身不能直接作为同步器来使用，所以可以借助几个实现类，这样可以从入口把上面零散的方法穿插起来    
+        * 公平锁/非公平锁 | 共享锁/排他锁  从ReentrantLock开始~
+            * ReentrantLock在构造的时候可以根据参数选择用公平还是非公平，以公平做例子
+            * 调用链路 lock->acquire(1)
+                * 开始分析AQS的```public final void acquire(int arg)```
+                    * tryAcquire
+                        * 在FairSync的实现中，
+                    * addWaiter
+                    * acquireQueued
+                    * selfInterrupt
+                    
