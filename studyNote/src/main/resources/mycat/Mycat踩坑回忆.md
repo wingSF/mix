@@ -9,6 +9,7 @@
 # mycat翻页二
 * 永远不要使用mycat做翻页实现
     即不要在mycat执行 limit  start，pagesize
+    * 如果非要，请参考[58沈剑的二次查询法](https://mp.weixin.qq.com/s/H_2hyEqQ70Y_OoFZh_P_5A)，该查询中有个前提，数据要尽量均匀，不然第一次改写会比较复杂
 
 * 例子
     * mysql架构  
@@ -76,7 +77,12 @@
 >通过上述可以实现全量数据的查询，且mysql实例的压力只取决与pageSize的大小
 
 
-
+#mycat翻页三
+* 总结[58沈剑的二次查询法](https://mp.weixin.qq.com/s/H_2hyEqQ70Y_OoFZh_P_5A)
+    * 有个前提，数据要尽量均匀，不然定位最小数据后会和目标位置偏差较远，不利于二次定位
+    * 总体思想，假设数据均匀分布，当limit offset,pageSize时，在每个分库上执行 limit offset/分库数量，pagesize
+    * 在多个结果集中，取最小值，然后确定该最小值，在所有数据中的offset
+    * 然后根据当前offset，在尝试获取目标分页数据，会大大降低检索数据量，避免了再每个分库执行 limit 0，offset+pagesize的查询
 
 //todo
 logaspect问题

@@ -180,11 +180,43 @@
     * 重点来喽
         > AQS自身不能直接作为同步器来使用，所以可以借助几个实现类，这样可以从入口把上面零散的方法穿插起来    
         * 公平锁/非公平锁 | 共享锁/排他锁  从ReentrantLock开始~
-            * ReentrantLock在构造的时候可以根据参数选择用公平还是非公平，以公平做例子
-            * 调用链路 lock->acquire(1)
+            * ReentrantLock在构造的时候可以根据参数选择用公平还是非公平，以非公平做例子(逻辑比公平要简单一个方法)
+            * 调用链路(只分析复杂流程中的复杂方法) 
+                * ReentrantLock#lock() -> Sync#nonfairTryAcquire() -> AbstractQueuedSynchronizer#addWaiter() -> AbstractQueuedSynchronizer#acquireQueued()
+                    * 在上述调用链路中，会根据前面方法的返回值来决定是否会继续后面的方法，自行推断下吧
+                    * nonfairTryAcquire()
+                        * 该方法先获取当前线程和status值
+                        * 判断status是否为0,
+                            * 是
+                                * cas更新status
+                                    * 更新成功
+                                        * 设置当前线程持有锁，通过AQS的父类AOS中的Thread成员变量保存，返回true，后续方法不再执行，直接返回
+                                    * 更新失败
+                                        * 返回false，接着执行后续方法
+                            * 不是
+                                * 判断排他Thread是否是当前线程
+                                    * 是
+                                        * 将status累加，然后设置给status，返回true，后续方法不再执行
+                                        * 此处注意，被volatile修饰的status，在内存中进行，增加再set的操作本身是线程不安全的，但为啥ReentrantLock这么写确没问题呢？
+                                        > 因为，进入该分支的前提是，排他线程是当前线程，也就是说，这个status变量只会被这一个线程操作，所以不会存在线程不安全问题
+                                    * 不是
+                                        * 返回false，接着执行后续方法
+                    * addWaiter(Node.EXCLUSIVE)
+                        * 实际Node.EXCLUSIVE是个null，所以入参mode是null
+                        * 新建的node节点，thread是当前线程，nextWaiter为null
+                        * 获取当前ReentrantLock的sync字段的tail字段
+                            * 如果tail不为空，将新建的node节点的prev设置为tail节点，尝试cas更新tail节点为node
+                                * 成功
+                                    * 将tail节点的next设置为新建的node节点
+                                    * 返回新建的node节点
+                                * 失败
+                                    * enq(新建的node节点)
+                                    * 返回新建的node节点
+                    * enq(node)
+                        * 
+                    * acquireQueued()
                 * 开始分析AQS的```public final void acquire(int arg)```
                     * tryAcquire
-                        * 在FairSync的实现中，
                     * addWaiter
                     * acquireQueued
                     * selfInterrupt
