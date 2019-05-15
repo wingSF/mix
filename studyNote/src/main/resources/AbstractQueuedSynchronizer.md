@@ -181,7 +181,7 @@
         > AQS自身不能直接作为同步器来使用，所以可以借助几个实现类，这样可以从入口把上面零散的方法穿插起来    
         * 公平锁/非公平锁 | 共享锁/排他锁  从ReentrantLock开始~
             * ReentrantLock在构造的时候可以根据参数选择用公平还是非公平，以非公平做例子(逻辑比公平要简单一个方法)
-            * 调用链路(只分析复杂流程中的复杂方法) 
+            * lock方法调用链路(只分析复杂流程中的复杂方法) 
                 * ReentrantLock#lock() -> Sync#nonfairTryAcquire() -> AbstractQueuedSynchronizer#addWaiter() -> AbstractQueuedSynchronizer#acquireQueued()
                     * 在上述调用链路中，会根据前面方法的返回值来决定是否会继续后面的方法，自行推断下吧
                     * nonfairTryAcquire()
@@ -202,6 +202,8 @@
                                     * 不是
                                         * 返回false，接着执行后续方法
                     * addWaiter(Node.EXCLUSIVE)
+                        * 该方法尝试将当前线程，封装在一个node节点内部，然后将该node节点设置为当前锁对象的sync字段的tail字段
+                        > 自己学习的时候，经常分不清类似tail这些值到底是谁的是哪个属性，是AQS的还是NonFailLock的还是Lock的。。。
                         * 实际Node.EXCLUSIVE是个null，所以入参mode是null
                         * 新建的node节点，thread是当前线程，nextWaiter为null
                         * 获取当前ReentrantLock的sync字段的tail字段
@@ -213,11 +215,38 @@
                                     * enq(新建的node节点)
                                     * 返回新建的node节点
                     * enq(node)
-                        * 
-                    * acquireQueued()
-                * 开始分析AQS的```public final void acquire(int arg)```
-                    * tryAcquire
-                    * addWaiter
-                    * acquireQueued
-                    * selfInterrupt
+                        * 将tail节点替换为node节点
+                        * 如果tail节点为null的话，先初始化tail=head=new Node(),然后再替换
+                * acquireQueued()方法的逻辑又是一个重中之重
+                    * 调用链路 tryAcquire(arg) -> shouldParkAfterFailedAcquire(p,node) -> parkAndCheckInterrupt() -> cancelAcquire()
+                    * 先判断node的前驱节点是不是head，再判断tryAcquire()的返回值
+                        * 进入循环体
+                        * true(表示满足 锁被当前线程持有，且node是head的后继节点)
+                            * 将node设置为head节点
+                            * 将node的前驱节点置空
+                            * failed局部变量设置为false，finally中的cancelAcquire不会执行
+                            * 返回false
+                        * false
+                            * shouldParkAfterFailedAcquire(p,node) && parkAndCheckInterrupt()
+                                * shouldParkAfterFailedAcquire
+                                    * 对于acquire失败的node，检查前驱节点的waitstatus，当状态为Node.SIGNAL，或者将waitStatus修改为该状态，则返回true。
+                                    * Node.SIGNAL表示节点release的时候会唤醒next节点
+                                    * 如果返回false，则继续下次循环
+                                * parkAndCheckInterrupt()
+                                    * 只有上一个方法返回true，才会执行该方法
+                                    * 该方法就是将当前线程阻塞，直到unpark或者interrupt
+                                    * //todo LockSupport
+                            * 当上述条件返回true，也就是获取锁失败，进入同步队列阻塞，并再次被唤醒时，发现中断标志位为true，设置interrupted局部变量为true
+                            > 在acquireInterruptibly的方法里面，这里的处理方式是抛出中断异常
+                    * 注意finally块中的代码，正常逻辑是不会执行的。当内部发生异常，会调用cancelAcquire方法 
+                    * cancelAcquire(node)
+                        * 获取前驱节点，并检查状态，将超时的被cancel的节点全部跳过
+                        * 如果node是tail，则尝试把tail，从node改成node.prev，成功后将pred的next修改为null。实质上完成了node节点的移除操作
+                        * 如果node的prev是head节点，调用unparkSuccessor(node)
+                            * unparkSuccessor方法，会查找node的next节点，然后唤醒next节点的线程
+                            > 查找方法和条件此处就不写了
+                        * 如果node节点不是head，则尝试将自己从等待队列中移除
+                        > 详细实现过程，不再详述
+            * unlock方法过程相对简单
+                * 获取status值，减去release的数量，比对exclusiveOwnerThread，判断剩余是否是0，如果0，就唤醒head的后继节点，如果不是，则不进行唤醒操作
                     
