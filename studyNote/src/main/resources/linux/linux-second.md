@@ -1,4 +1,5 @@
 # 常见命令
+> 对自己说，不熟悉的命令，一定先复制文件，再操作，等确认无误的时候，再做修改，切记切记，不急不躁，稳住稳住
 * who
     * 提供给管理员查询当前服务器上登录的用户，包括登录时间/终端类型(tty1-7)/登录方式
 * ps
@@ -147,6 +148,11 @@
 * zip
     * zip target original
     * unzip target
+* gzip|zcat
+    * gzip -h，查看帮助
+    * gzip file file.gz
+    * gzip -d file.gz
+    * zcat file.gz > file
 * 源码安装过程
     * ./configure
         * 环境检查等

@@ -191,6 +191,7 @@
                                 * cas更新status
                                     * 更新成功
                                         * 设置当前线程持有锁，通过AQS的父类AOS中的Thread成员变量保存，返回true，后续方法不再执行，直接返回
+                                        > 此处就是非公平的原因所在，后续分析为啥，以及与公平锁的对比
                                     * 更新失败
                                         * 返回false，接着执行后续方法
                             * 不是
@@ -249,4 +250,25 @@
                         > 详细实现过程，不再详述
             * unlock方法过程相对简单
                 * 获取status值，减去release的数量，比对exclusiveOwnerThread，判断剩余是否是0，如果0，就唤醒head的后继节点，如果不是，则不进行唤醒操作
-                    
+            * 为什么是非公平的
+                * 上文中，有一个位置，特定备注了下，非公平的原因就是那里造成的，与公平锁的代码的区别，也就那一个地方
+                * 在非公平锁中，只要status为0的时候，新来的线程和被唤醒的线程进行竞争，如果新来的cas成功，则被唤醒的线程只能继续沉睡，这个是不是很不公平
+                * 如果一直是新来的线程获取锁成功，可能会出现所谓的饿死的情况。
+                * 在公平锁的实现中，这个地方，会调用hasQueuedPredecessors()，判断是否有阻塞等待的节点，来确认是否执行cas操作
+                * 但是非公平锁的效率要比公平锁略高，因为这个判断是多出来的逻辑，很显然会耗时
+            * 公平锁
+                * 只分析hasQueuedPredecessors(),别的逻辑与非公平一致
+                * hasQueuedPredecessors()
+                    * 当该方法返回true的时候，外层直接返回获取锁失败，进入等待队列 | 当该方法返回false的时候，执行与非公平锁一样的逻辑
+                    * 方法作用是，查询是否用线程比当前线程等待的时间还要长
+                    > javadoc原文 Queries whether any threads have been waiting to acquire longer than the current thread.
+                    * ```h != t && ((s = h.next) == null || s.thread != Thread.currentThread());```
+                    * h指head，t指tail，s指head.next
+                    * 总结下
+                        * 返回true的场景
+                            * 头尾不相等，s为null，返回true
+                            * 头尾不相等，s.thread不是当前线程，返回true
+                        * 返回false的场景
+                            * 头尾相等，返回false
+                            * 头尾不相等，s不为null，s.thread还是当前线程，返回false
+                            > 这个场景可能会出现么?当前线程已经在等待队列中被block，然后自己又来了，这是个什么场景，百思不得解释，希望大家用来反问牛逼的面试官，然后分享下...//todo
