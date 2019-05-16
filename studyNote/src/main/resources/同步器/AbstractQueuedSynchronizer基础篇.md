@@ -1,4 +1,4 @@
-# AbstractQueuedSynchronizer
+# AbstractQueuedSynchronizer基础篇
 * 这个是什么东西
     * Provides a framework for implementing blocking locks and related synchronizers (semaphores, events, etc) that rely on first-in-first-out (FIFO) wait queues.
         * 首先是一个框架(framework)
@@ -41,6 +41,7 @@
             * FIFO队列的头元素，只能通过setHead方法修改，且当head存在时，它的waitStatus不应该是CANCLLED
         * ```private transient volatile Node tail```
             * FIFO队列的尾元素，只能通过enq方法修改
+            * FIFO队列的尾元素，只能通过enq方法修改
 * 内部类
     * Node
         * field
@@ -82,16 +83,7 @@
                 * 用于添加sync后继节点
                 * 用于添加condition后继节点
     * ConditionObject
-        * 是Condition接口的一个实现，作为AQS中锁的基本实现
-        * 该类是可序列化的，但是所有的field都是transient修饰的，所以反序列化该队列，拿不到waiters信息
-        * field
-            * ```private transient Node firstWaiter;```
-                * condition队列的头
-            * ```private transient Node lastWaiter;```
-                * condition队列的尾
-        * method    
-            * 暂时跳过
-            * //todo 
+        * //todo 在第二篇中详述
 * 核心方法介绍
     * 先来点简单的
         * 见名知意型
