@@ -153,6 +153,15 @@
     * gzip file file.gz
     * gzip -d file.gz
     * zcat file.gz > file
+* ifconfig('I'nter'F'ace config)
+    * 可以用来查看网络接口信息
+    * sudo ifconfig eth0(网卡名称) down
+    * sudo ifconfig eth0 up
+    * sudo ifconfig eth0 ip
+        * 用于临时修改计算机中的ip地址，重启网卡失效
+* ping
+    * 用于检测是否与目标服务器网络畅通
+    * 参数很多，但实际很多服务器都会禁止ping，所以要学会用telnet命令        
 * 源码安装过程
     * ./configure
         * 环境检查等
