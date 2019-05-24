@@ -17,3 +17,9 @@
     * 问题
         * synchronized遇到异常会自动释放锁，改进后的lock必须调用unlock方法才可以
         * synchronized不会响应中断，lock有响应中断的api，甚至有等待超时的api，这样对于锁的控制将会更加灵活。 
+        * 传统的object锁，只能提供一个锁定队列，但是lock/condition可以提供多个等待队列
+        * 传统的object锁，在唤醒的时候，无法指定线程唤醒，但condition可以指定唤醒，默认唤醒等待最久的线程
+        * 传统的object锁，在唤醒的时候，必须持有指定的对象，但condition不需要。ex:有界队列的实现中，写入数据之后，唤醒读线程
+* 核心方法解析
+    * await
+        * 调用链路```addConditionWaiter```->```unlinkCancelledWaiters```->```fullyRelease```

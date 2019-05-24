@@ -41,7 +41,22 @@
     * 线程通过检查自身是否被中断来进行响应，通过调用isInterrupt方法判断是否被中断，也可以使用Thread.interrupted()对标志位进行复位操作
     * 如果线程已经终结，isInterrupt返回false
     * 当线程在执行会抛出interruptedException的方法时，被别的线程调用了interrupt方法，此时会先将标识位复位，再抛出异常
-    
+    * 核心方法整理
+        * interrupt()
+            * 当前线程调用自己的interrupt方法来中断线程是允许的，否则调用权限查询是否有权限
+            * 等待在某些wait方法上，调用会清除中断状态，并且给一个中断异常
+            * 等待在某些io方法上，会设置中断状态，并给一个ClosedByInterruptException
+            * 等待在selector上，会设置中断状态，并立即返回
+            * 如果是等待在其他方法，会设置中断状态
+        * interrupted()
+            * currentThread().isInterrupted(true);
+        * isInterrupted()
+            * isInterrupted(false);
+        * native boolean isInterrupted(boolean ClearInterrupted)
+            * 返回检测线程是否被中断了
+            * 如果参数为true，中断状态会被清除
+        * native void interrupt0()
+            * native方法用来帮助中断
 * suspend/resume/stop
     * 不推荐使用的方法
     * 因为不会释放资源，容易发生死锁（suspend/stop）
