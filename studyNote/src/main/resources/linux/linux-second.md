@@ -40,6 +40,7 @@
 * echo
     * 用于回显数据
     * 设置hello=world  echo hello || echo $hello
+    * echo $? 可以获取上个可执行程序的返回结果，即return值
 * env
     * 展示当前shell的属性
 * history
@@ -161,7 +162,39 @@
         * 用于临时修改计算机中的ip地址，重启网卡失效
 * ping
     * 用于检测是否与目标服务器网络畅通
-    * 参数很多，但实际很多服务器都会禁止ping，所以要学会用telnet命令        
+    * 参数很多，但实际很多服务器都会禁止ping，所以要学会用telnet命令
+* umask
+    * 文件权限掩码
+    * 提供给管理员的统一控制文件的权限
+    * umask -S可以以字符形式查看文件权限
+* alias
+    * 命令别名
+    * 可以实现将rm命令改成mv
+    * ex:alias rm="rm -i"
+* ssh
+    * ssh root@ip用于远程登录
+    * 加密传输
+    * 对比telnet是明文传输
+* man
+    * man man(查看帮助)
+        * 第一章 shell命令
+        * 第二章 系统调用
+        * 第三章 库函数
+    * man 2(第二章)  method_name(函数名称)
+    * man -k method_name(函数名称) 模糊查找函数
+* uname -a
+    * 查看内核版本信息
+* lsb_release -a
+    * 查看发行版本
+* clear
+    * 清屏
+    * ctrl+l
+* date
+    * 查看时间
+* 有些危险的命令
+    * poweroff
+    * shutdown -t 秒数
+    * reboot
 * 源码安装过程
     * ./configure
         * 环境检查等
