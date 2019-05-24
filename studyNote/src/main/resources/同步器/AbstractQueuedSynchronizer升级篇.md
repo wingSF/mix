@@ -22,4 +22,38 @@
         * 传统的object锁，在唤醒的时候，必须持有指定的对象，但condition不需要。ex:有界队列的实现中，写入数据之后，唤醒读线程
 * 核心方法解析
     * await
-        * 调用链路```addConditionWaiter```->```unlinkCancelledWaiters```->```fullyRelease```
+        * 调用链路```addConditionWaiter```->```fullyRelease```->```isOnSyncQueue(node)```->```checkInterruptWhileWaiting```->```unlinkCancelledWaiters```->```reportInterruptAfterWait```
+        * 以上调用链路，并不是程序的真正执行顺序，只是所有逻辑中会涉及到的核心方法
+        * 核心方法
+            * ```addConditionWaiter()```
+                * 将当前线程封装到一个Node对象里面，status是Node.CONDITION
+                * 将该node对象，放在lastWaiter的位置(小学生难度的链表操作)
+            * ```fullyRelease(node)```
+                * 获取当前同步器的status值，然后调用release方法，清空当前同步器的status值，设置exclusive线程null
+                * 效果相当于把node对象从sync队列移除
+            * ```isOnSyncQueue(node)```
+                * 判断node节点是否在sync队列上
+                * 由于上述的release方法，sync队列上已经不存在该node
+                * 但为什么还有这个while判断呢?//todo 
+                    * 个人猜测原因有，会不会和中断有关系呢，如果线程被中断，locksupport会是一个什么样的反应
+                    * LockSupport.park的是线程，由于该线程可能会在别的地方被unpark,所以需要增加该项判断，需要深入LockSupport进行验证
+                    * 会不会是由于signal机制决定的，需要根据signal方法的，进行验证
+                    * 结论
+            * ```checkInterruptWhileWaiting(node)```
+                * 每次被unpark之后，检查当前线程是否被中断
+                * 如果中断标志位true，则调用```transferAfterCancelledWait(node)```
+                    * cas尝试更新node的waitStatus
+                    * 成功
+                        * 通过enq方法将node添加到sync队列
+                    * 失败
+                        * 说明被其他线程通过signal，已经移动到sync队列或者正在移动
+                        * 根据isOnSyncQueue，无限期yield直到成功
+            * 再次通过acquireQueued(node,savedState),尝试获取锁
+                * 注意此时一定要获取savedState这个数，否则外层的锁释放将会出现问题
+            * ```unlinkCancelledWaiters```
+                * 从conditon的firstWaiter开始，将队列中被cancel的清理一遍
+            * ```reportInterruptAfterWait(int interruptMode)```
+                * 根据interruptMode，不同操作
+                * THROW_IF->throw new InterruptedException()
+                * REINTERRUPT->Thread.currentThread().interrupt()
+                
