@@ -56,4 +56,12 @@
                 * 根据interruptMode，不同操作
                 * THROW_IF->throw new InterruptedException()
                 * REINTERRUPT->Thread.currentThread().interrupt()
-                
+    * signal
+        * 调用链路```signal()```->```doSignal(first)```->```transferForSignal(Node node)```
+            * 核心方法```transferForSignal(Node node)```
+                * cas修改node的状态，从condition->0，如果更新失败，返回false
+                * 将node通过enq方法，从condition队列转移到sync队列，返回node的前驱节点
+                * 判断p的waitStatus，如果<=0,尝试cas更新状态为SIGNAL，如果成功，unpark node的thread
+    * signalAll
+        * 调用链路```signalAll()```->```doSignalAll(first)```->```transferForSignal(Node node)```
+                * 参考signal可理解
