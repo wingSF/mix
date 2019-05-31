@@ -149,7 +149,7 @@
             * ```tryRelease```
             * ```tryAcquireShared```
             * ```tryReleaseShared```
-            * ```UnsupportedOperationException```
+            * ```isHeldExclusively```
         * 来点难度
             * ```private Node enq(final Node node)```
                 * 该方法用于将一个node插入到队列中，如果需要做初始化操作
