@@ -36,14 +36,8 @@ public class ThreadDemo {
 
   public static class MyThread extends Thread {
 
-    private ThreadGroup threadGroup;
-
     public MyThread(String name) {
       super(name);
-    }
-
-    public MyThread(ThreadGroup threadGroup) {
-      this.threadGroup = threadGroup;
     }
 
     @Override
@@ -57,9 +51,7 @@ public class ThreadDemo {
       }
 
       //线程父子关系
-      Thread thread = new Thread(() -> {
-        System.out.println("son thread " + currentThread().getThreadGroup().getName());
-      }, "son");
+      Thread thread = new Thread(() -> System.out.println("son thread " + currentThread().getThreadGroup().getName()), "son");
       thread.start();
 
     }
