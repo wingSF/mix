@@ -21,14 +21,60 @@ public class RemoveNodeFromLinkedTable {
         node4.next = node5;
 
         int n = 2;
-        removeNthFromEnd(node1, n);
 
-        System.out.println(node1);
+        System.out.println("before : " + node1);
+        System.out.println("going to remove 倒数第" + n + "个");
+
+        removeNthFromEnd(node1, n);
+//        removeNthFromEnd1(node1, n);
+
+        System.out.println("after : " + node1);
 
     }
 
+    /**
+     * by 肖冉 双指针
+     * @param node1
+     * @param n
+     * @return
+     */
+    private static ListNode removeNthFromEnd1(ListNode node1, int n) {
+
+        long startTime = System.nanoTime();
+
+        ListNode start = node1;
+        ListNode end = node1;
+
+        for (int i = 0; i < n; i++) {
+            end = end.next;
+        }
+
+        while (true) {
+
+            if (end.next == null) {
+                start.next = start.next.next;
+                long endTime = System.nanoTime();
+                System.out.println("removeNthFromEnd1 耗时" + (endTime - startTime));
+                return node1;
+            } else {
+                start = start.next;
+                end = end.next;
+            }
+
+        }
+
+
+    }
+
+    /**
+     * by me 对链表进行了俩次遍历，且for循环判断耗时较长
+     * @param head
+     * @param n
+     * @return
+     */
     public static ListNode removeNthFromEnd(ListNode head, int n) {
 
+        long startTime = System.nanoTime();
         ListNode headCopy = head;
 
         for (int i = 0; i < n; i++) {
@@ -55,6 +101,9 @@ public class RemoveNodeFromLinkedTable {
             }
 
             head.next = head.next.next;
+
+            long endTime = System.nanoTime();
+            System.out.println("removeNthFromEnd 耗时" + (endTime - startTime));
             return headCopy;
         }
     }
@@ -66,6 +115,11 @@ public class RemoveNodeFromLinkedTable {
 
         ListNode(int x) {
             val = x;
+        }
+
+        @Override
+        public String toString() {
+            return val + (next == null ? "" : "->" + next.toString());
         }
     }
 
