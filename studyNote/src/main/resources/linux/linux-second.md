@@ -223,3 +223,13 @@
     * frame 切换栈
     * set val 设置变量值
     * 设置断点，启用|警用断点，逐句|逐步执行
+* sed
+    * 用于文件操作
+    * sed 's/${oriStr}/${tarStr}/' oriFile >> new File
+        * '$'代表文件末尾，‘^’代表文件开头
+        * 上述命令可实现字符串替换
+    * sed 's/^/xxx/' 1.txt >> 2.txt
+        * 为1的每行行首增加xxx
+    * sed 's/$/xxx/' 1.txt >> 2.txt
+        * 为1的每行行末增加xxx
+    
