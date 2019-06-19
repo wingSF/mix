@@ -47,6 +47,11 @@ public class StreamAPI {
         numberList.add(5);
         numberList.add(6);
 
+        Optional.ofNullable(null).orElseThrow(RuntimeException::new);
+        Optional.ofNullable(null).orElseThrow(()->new RuntimeException());
+
+        //todo flatMap的示例
+
         //获取流中的min值
         //todo    对象的如何获取
         Optional<Integer> min = numberList.stream().min(Integer::compareTo);
