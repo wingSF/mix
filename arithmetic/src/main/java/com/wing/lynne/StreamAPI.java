@@ -47,20 +47,31 @@ public class StreamAPI {
         numberList.add(5);
         numberList.add(6);
 
-        Optional.ofNullable(null).orElseThrow(RuntimeException::new);
-        Optional.ofNullable(null).orElseThrow(()->new RuntimeException());
+//        演示异常抛出，打开注释，后续代码无法执行
+//        Optional.ofNullable(null).orElseThrow(RuntimeException::new);
+//        Optional.ofNullable(null).orElseThrow(()->new RuntimeException());
 
         //todo flatMap的示例
 
         //获取流中的min值
-        //todo    对象的如何获取
-        Optional<Integer> min = numberList.stream().min(Integer::compareTo);
+        Optional<Integer> min = numberList
+                .stream()
+                .min(Integer::compareTo);
         if (min.isPresent()) {
             Integer integer = min.get();
             System.out.println("min number is " + integer);
         }
 
-        personList.stream().min(Comparator.comparing(Person::getName));
+        Optional<Person> personWithMinAge = personList
+                .stream()
+                .min(Comparator.comparingInt(Person::getAge));
+        System.out.println(personWithMinAge.get());
+
+
+        Optional<Person> personWithMinName = personList
+                .stream()
+                .min(Comparator.comparing(Person::getName));
+        System.out.println(personWithMinName.get());
 
         Map<Integer, String> collect1 = personList.stream().collect(Collectors.toMap(Person::getAge, Person::getName, (t1, t2) -> t1 + "," + t2));
         Map<Integer, String> collect2 = personList.stream().collect(Collectors.toMap(Person::getAge, Person::getName, (t1, t2) -> t2));
