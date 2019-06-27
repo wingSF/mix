@@ -1,7 +1,8 @@
 package com.wing.lynne;
 
 /**
- * 演示
+ * 演示参数参数对象类型，且对象类型属于Immutable类型
+ * 该类型的对象，每次value发生变更都会重新生成一个对象
  */
 public class IntegerDemo {
 
