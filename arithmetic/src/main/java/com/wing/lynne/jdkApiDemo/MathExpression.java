@@ -15,6 +15,8 @@ import java.text.MessageFormat;
  * 将操作符用$index}标识，便于后续动态替换
  *
  * 使用scriptengine或者spring spel expression计算被替换后的字符串的值
+ * evalex框架也是用来做表达式计算的
+ * https://github.com/uklimaschewski/EvalEx
  */
 public class MathExpression {
 
@@ -37,6 +39,7 @@ public class MathExpression {
         expression = MessageFormat.format(expression, paramArray);
         expression1 = MessageFormat.format(expression1, paramArray1);
         expression2 = MessageFormat.format(expression2, paramArray2);
+        MessageFormat.format(expression3, paramArray3);
         expression3 = MessageFormat.format(expression3, paramArray3);
 
         System.out.println(expression);
