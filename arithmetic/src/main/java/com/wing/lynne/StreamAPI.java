@@ -1,6 +1,7 @@
 package com.wing.lynne;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,17 @@ public class StreamAPI {
 //        Optional.ofNullable(null).orElseThrow(RuntimeException::new);
 //        Optional.ofNullable(null).orElseThrow(()->new RuntimeException());
 
-        //todo flatMap的示例
+        //flatmap
+        List<String> stringList = new ArrayList<>();
+
+        stringList.add("1,2,3");
+        stringList.add("4,5,6");
+
+        stringList
+                .stream()
+                .map(value -> value.split(","))
+                .flatMap(v -> Arrays.stream(v))
+                .forEach(System.out::println);
 
         //获取流中的min值
         Optional<Integer> min = numberList
