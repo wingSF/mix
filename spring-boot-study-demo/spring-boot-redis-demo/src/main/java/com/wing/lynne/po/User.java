@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 import org.redisson.api.annotation.REntity;
 import org.redisson.api.annotation.RId;
 
-@Builder
+import java.util.Set;
+
 @Data
+@Builder
 @REntity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +24,6 @@ public class User {
     private String address;
 
     private User son;
+
+    private Set<String> tags;
 }
