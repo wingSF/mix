@@ -16,6 +16,7 @@
         <module>spring-boot-traditional-web-servlet</module>
         <module>spring-boot-mvc-resource-demo</module>
         <module>spring-boot-configuration</module>
+        <module>spring-boot-redis-demo</module>
     </modules>
 
 </project>

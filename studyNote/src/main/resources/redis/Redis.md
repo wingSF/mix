@@ -1,4 +1,5 @@
 # redis命令
+## [推荐学习网站](http://try.redis.io)
 * string
     * set name wing
     * set age 3
@@ -10,6 +11,7 @@
     * setnx name wing
     * incr age
     * incrby age +/-50
+> 适用于简单的k-v存储    
 
 * list
     * rpush key value1 value2 value3
@@ -22,6 +24,7 @@
         * lrange key start end
             * 负数表示倒数第几个
         * ltrim key start end
+> 适用于队列操作，可以左右俩边同时操作，还可以一次性获取多个值
         
 * hash
     * hset name field value
@@ -37,6 +40,8 @@
     * scard key    
     * sismember key value
     * spop key [count]
+> set是一个去重的集合，本身无序，可以用来判断是否存在操作  
+sunion操作可以将俩个set组合在一起
     
 * zset
     * zadd key score value
@@ -48,6 +53,7 @@
     * zrevrank key value
     * zrem key value
     * zrangebysocre key -inf score
+> zset在set的基础上，增加了排序的功能
     
 * bitmap
     * setbit key index value[0,1]
