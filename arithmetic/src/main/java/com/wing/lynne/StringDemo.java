@@ -8,6 +8,8 @@ import java.lang.reflect.Field;
  * 参考：https://www.cnblogs.com/Kidezyq/p/8040338.html
  * jdk1.7为分界线，
  *     系统第一次出现的字符串的地址值，写入常量池，后续获取都使用该对象
+ *
+ * 分析字符串的题目时要注意编译器优化，最普通的字面值链接，会在编译期间被直接优化
  */
 public class StringDemo {
 
@@ -17,6 +19,9 @@ public class StringDemo {
 //        jdk版本也会影响返回值（以1.7为分界线）
 
 //        String z = "aaabbb";
+
+        String c4 = "abc4";
+        String c4c = "abc"+c4.length();
 
         String a = new StringBuffer("aaa").append("bbb").toString();
         String b = new StringBuffer("ja").append("va").toString();

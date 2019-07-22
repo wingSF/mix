@@ -67,7 +67,7 @@ public class MathExpression {
 
         ExpressionParser parser = new SpelExpressionParser();
 
-        Object value = parser.parseExpression(expression).getValue();
+        String value = parser.parseExpression(expression).getValue().toString();
         Object value1 = parser.parseExpression(expression1).getValue();
         Object value2 = parser.parseExpression(expression2).getValue();
         Object value3 = parser.parseExpression(expression3).getValue();
