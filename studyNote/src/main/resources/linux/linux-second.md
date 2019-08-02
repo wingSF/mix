@@ -92,8 +92,10 @@
 * tail 
     * 查看文件的末尾 
 * ln
+    * ln ori newLink
     * 创建符号链接
     * -s参数创建的是软连接
+    > 不允许对目录创建链接
 * wc
     * word count
     > 59467@DESKTOP-FB60KJ2 MINGW64 /c/wing/myWorkspace/mix (master)  
