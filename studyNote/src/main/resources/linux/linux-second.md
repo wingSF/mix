@@ -169,6 +169,7 @@
     * sudo ifconfig eth0 up
     * sudo ifconfig eth0 ip
         * 用于临时修改计算机中的ip地址，重启网卡失效
+    * curl ifconfig.me 查看本地公网ip地址
 * ping
     * 用于检测是否与目标服务器网络畅通
     * 参数很多，但实际很多服务器都会禁止ping，所以要学会用telnet命令
