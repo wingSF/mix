@@ -3,6 +3,8 @@ package com.wing.lynne.controller;
 import com.google.common.collect.Sets;
 import com.wing.lynne.po.User;
 import org.redisson.api.RLiveObjectService;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping(value = "/wing")
@@ -19,10 +22,12 @@ public class UserController {
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
     private RLiveObjectService rLiveObjectService;
+    private RedissonClient redissionClient;
 
     @Autowired
-    public UserController(RLiveObjectService rLiveObjectService) {
+    public UserController(RLiveObjectService rLiveObjectService, RedissonClient redissionClient) {
         this.rLiveObjectService = rLiveObjectService;
+        this.redissionClient = redissionClient;
     }
 
     @RequestMapping("/add")
@@ -95,4 +100,25 @@ public class UserController {
 
     }
 
+    @RequestMapping("/getDistributedLock")
+    public void getDistributedLock() {
+
+        RLock rLock = redissionClient.getLock("wing");
+
+        rLock.lock(30, TimeUnit.SECONDS);
+
+        try {
+            System.out.println(Thread.currentThread().getName() + " get lock going to sleep ");
+
+            TimeUnit.SECONDS.sleep(20);
+
+            System.out.println(Thread.currentThread().getName() + " going to release lock");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            rLock.unlock();
+        }
+
+    }
 }

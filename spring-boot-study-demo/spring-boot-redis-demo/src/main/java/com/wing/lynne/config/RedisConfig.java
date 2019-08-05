@@ -17,6 +17,7 @@ public class RedisConfig {
     private String host;
     private String port;
 
+    @Bean
     RedissonClient redisson(){
         Config config = new Config();
 
