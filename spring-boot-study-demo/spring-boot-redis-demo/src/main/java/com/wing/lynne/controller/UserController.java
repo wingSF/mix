@@ -105,20 +105,22 @@ public class UserController {
 
         RLock rLock = redissionClient.getLock("wing");
 
-        rLock.lock(30, TimeUnit.SECONDS);
+        boolean tryLockResult = false;
 
         try {
-            System.out.println(Thread.currentThread().getName() + " get lock going to sleep ");
 
-            TimeUnit.SECONDS.sleep(20);
+            tryLockResult = rLock.tryLock(5, 20, TimeUnit.SECONDS);
 
-            System.out.println(Thread.currentThread().getName() + " going to release lock");
+            if(tryLockResult){
+                TimeUnit.SECONDS.sleep(10);
+//                TimeUnit.SECONDS.sleep(30);
+            }
 
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            rLock.unlock();
         }
+
+        System.out.println(Thread.currentThread().getName()+" lock result "+tryLockResult);
 
     }
 }
