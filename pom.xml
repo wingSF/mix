@@ -19,6 +19,7 @@
         <module>rpc-framework</module>
         <module>design-pattern</module>
         <module>my-spring-framework</module>
+        <module>java-io-module</module>
     </modules>
 
     <packaging>pom</packaging>
