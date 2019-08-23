@@ -22,6 +22,7 @@ public class JodaTimeDemo {
         //获取上月最后一天0点
         DateTime dateTime6 = DateTime.now().withDayOfMonth(1).minusDays(1).withTimeAtStartOfDay();
 
+        DateTime dateTime7 = new DateTime("2019-08-22T16:00:00.000Z");
 
         printDateTime(dateTime1);
         printDateTime(dateTime2);
@@ -29,6 +30,7 @@ public class JodaTimeDemo {
         printDateTime(dateTime4);
         printDateTime(dateTime5);
         printDateTime(dateTime6);
+        printDateTime(dateTime7);
     }
 
 
