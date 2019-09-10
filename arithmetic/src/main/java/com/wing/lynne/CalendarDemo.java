@@ -53,7 +53,7 @@ public class CalendarDemo {
         String pattern = "yyyy-MM-dd HH:mm:ss";
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
-//        以下俩中时区，可以复现错误
+//        以下俩种时区，可以复现错误
 //        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("PST"));
 //        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("CST"));
 

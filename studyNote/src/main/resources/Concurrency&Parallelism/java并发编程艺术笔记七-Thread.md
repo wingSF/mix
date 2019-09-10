@@ -73,7 +73,7 @@
         * synchronized通过排他，保证临界区中只有一个线程在运行
             * 同步代码块，使用moniterenter和moniterexit俩个指令实现
             * 同步方法，使用ACC_SYNCHRONIZED来实现
-            * 以上俩中，本质上都是获取对象的moniter，要想访问被moniter保护的Object对象，必须先获取moniter，如果失败，进入等待队列，等待前一个线程释放moniter，此时等待线程为block状态。持有线程释放后，会唤醒等待线程。   
+            * 以上俩种，本质上都是获取对象的moniter，要想访问被moniter保护的Object对象，必须先获取moniter，如果失败，进入等待队列，等待前一个线程释放moniter，此时等待线程为block状态。持有线程释放后，会唤醒等待线程。   
 
 * 等待/通知
     * 假设一个场景，A线程会不停的改变一个共享变量，B线程监视该共享变量，一旦满足某个条件，就作出某种反应。

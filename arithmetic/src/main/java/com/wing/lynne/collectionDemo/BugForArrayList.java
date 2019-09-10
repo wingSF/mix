@@ -43,7 +43,7 @@ public class BugForArrayList {
 
     public static void main(String[] args) {
 
-//        俩中list结构都会抛出异常
+//        俩种list结构都会抛出异常
         List parentList = new ArrayList(2);
 //        List parentList = new LinkedList();
 
