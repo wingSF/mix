@@ -3,20 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>mix</artifactId>
+        <artifactId>message-queue</artifactId>
         <groupId>com.wing.lynne</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>message-queue</artifactId>
+    <artifactId>original-client-demo</artifactId>
 
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>springboot-rabbit-demo</module>
-        <module>springboot-rocket-demo</module>
-        <module>springboot-kafka-demo</module>
-        <module>original-client-demo</module>
-    </modules>
 </project>
