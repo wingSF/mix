@@ -63,6 +63,9 @@
     * 写在exec函数后面的代码不会被执行
     * exec经常与fork函数结合使用，先fork子进程，然后用新的命令替换子进程的代码段/数据段
     > 补充fork:由于fork之后，一般不再继续执行父进程中的代码，所以现代的os再fork的时候，采用了读时共享，写时复制的策略
+* wait函数/waitpid函数
+    * 用来监控回收子进程的pcb
+    * wait会阻塞父进程，waitpid不会阻塞
 *  参考资料
     * [多核](https://baike.baidu.com/item/%E5%A4%9A%E6%A0%B8%E5%A4%84%E7%90%86%E5%99%A8/10278420?fr=aladdin)
     * [猿码道](https://www.jianshu.com/p/5549e89133d2)
