@@ -1,4 +1,4 @@
-package com.wing.lynne.syncio;
+package com.wing.lynne.sync;
 
 import org.joda.time.DateTime;
 

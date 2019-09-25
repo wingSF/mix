@@ -1,13 +1,12 @@
-package com.wing.lynne.syncio;
+package com.wing.lynne.fakeasync;
+
+import com.wing.lynne.sync.SyncServerHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * 同步模型的服务器端
- */
-public class SyncServer {
+public class FakeAsyncServer {
 
     public static void main(String[] args) {
 
@@ -20,6 +19,9 @@ public class SyncServer {
             }
         }
 
+        //把这里的maxPoolSize调小，可以演示下排错，然后完美的装个逼，
+        FakeAsyncServerExecutePool executePool = new FakeAsyncServerExecutePool(50,3000);
+
         try (ServerSocket server = new ServerSocket(port)) {
 
             System.out.println("sync server start in port " + port);
@@ -28,12 +30,13 @@ public class SyncServer {
             while (true) {
                 socket = server.accept();
                 //启动线程处理请求
-                new Thread(new SyncServerHandler(socket)).start();
+                executePool.execute(new SyncServerHandler(socket));
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 }
