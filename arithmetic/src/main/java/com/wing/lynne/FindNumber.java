@@ -15,23 +15,19 @@ public class FindNumber {
 
     public static void main(String[] args) {
 
-        System.out.println(3 & 1);
-        System.out.println(5 & 1);
-        System.out.println(2 & 1);
 
-
+        //定义数组内容
         int[] arr = {1, 2, 3, 4, 5, 5, 4, 3, 2, 1, 6, 7};
-
         int length = arr.length;
 
+
+        //第一次求异或结果，用temp1来保存
         int temp1 = 0;
-
-
         for (int i = 0; i < length; i++) {
-
             temp1 = temp1 ^ arr[i];
         }
 
+        //找到异或结果的二进制表达形式中，最低位为1，代表的数字，用于下一步分治的判断条件
         int mod = 1;
         while (true) {
             int result = temp1 & mod;
@@ -42,9 +38,9 @@ public class FindNumber {
             }
         }
 
+        //第二次求异或结果，用temp2和temp3用来保存，俩部分异或的结果
         int temp2 = 0;
         int temp3 = 0;
-
         for (int i = 0; i < length; i++) {
 
             if ((arr[i] & mod) == mod) {
