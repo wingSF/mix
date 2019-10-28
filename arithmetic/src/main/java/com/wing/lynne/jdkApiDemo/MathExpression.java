@@ -1,5 +1,6 @@
 package com.wing.lynne.jdkApiDemo;
 
+import com.udojava.evalex.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
@@ -15,6 +16,13 @@ import java.text.MessageFormat;
  * 将操作符用$index}标识，便于后续动态替换
  *
  * 使用scriptengine或者spring spel expression计算被替换后的字符串的值
+ *
+ * spring el使用过程中遇到一个问题
+ *      字符串 "3/4" 得到的结果是0
+ *      字符串 "3.0/4"得到的结果是0.75
+ * 这个要小心了
+ *
+ *
  * evalex框架也是用来做表达式计算的
  * https://github.com/uklimaschewski/EvalEx
  */
@@ -82,6 +90,11 @@ public class MathExpression {
         System.out.println(value1);
         System.out.println(value2);
         System.out.println(value3);
+
+
+        Expression evalExPression = new Expression("3/4");
+
+        System.out.println(evalExPression.eval().toString());
 
     }
 }
