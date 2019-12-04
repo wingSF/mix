@@ -14,5 +14,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>the-way-to-mybatis</module>
+        <module>the-way-to-clickhouse</module>
     </modules>
 </project>
