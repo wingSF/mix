@@ -1,4 +1,4 @@
-#hashmap
+# hashmap
 ## 四种内部类
 ### Node类的内部类
 * 该内部类主要用于描述hashmap的数据结构中，数组的某个下标位置的数据结构
@@ -34,6 +34,36 @@
 线程2同时操作slot[i],在线程1执行执行o2插入的时候，抢先完成扩容，结果是新slot[x]=o2,o2.next=o1,o1.next=null  
 线程1继续执行，读取o2的next，读到o1(读到被别的线程修改的数据)，将o1的next节点指向o2，这时循环链表就形成了  
 jdk8的改进方案，将头插法，改成了尾插，避免了这种情况
+
+```java
+//    核心代码如下所示
+    void transfer(Entry[] newTable) {
+        Entry[] src = table;
+        int newCapacity = newTable.length;
+        
+        // for循环内部线程不安全导致
+        for (int j = 0; j < src.length; j++) {//for循环遍历当前保存元素的数组    
+            Entry<K,V> e = src[j];//取出第j个元素
+            if (e != null) {
+                src[j] = null;//将原来数组中该位置的值清空，这里多线程的时候，是保证不了的
+                do {
+                    Entry<K,V> next = e.next;
+                    int i = indexFor(e.hash, newCapacity);
+                    
+                    //将新数组位置上的元素，挂接到当前元素的下面
+                    e.next = newTable[i];
+                    
+                    //使用当前元素占用新数组的第i的位置
+                    newTable[i] = e;
+                    
+                    //将e用e的后继节点替换，便于下次循环
+                    e = next;
+                    
+                } while (e != null);
+            }
+        }
+    }
+```
 
 > 在jdk1.8中ConcurrentHashMap，存在死循环情况，1.9修复
 //todo一探究竟
