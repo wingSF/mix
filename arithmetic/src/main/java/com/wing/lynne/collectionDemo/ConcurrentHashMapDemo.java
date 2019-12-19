@@ -16,10 +16,16 @@ public class ConcurrentHashMapDemo {
         System.out.println("AaAa".hashCode());
         System.out.println("BBBB".hashCode());
 
+//        provided by buildup chao
+//        Map<Integer, Integer> map1 = new ConcurrentHashMap<>(16);
+//        map1.computeIfAbsent(12, (k) -> {
+//            map1.put(k, k); // will generate dead loop and result in high CPU.
+//            return k;
+//        });
 
-        Map<String, Integer> map = new ConcurrentHashMap<>(16);
-        map.computeIfAbsent("AaAa", key -> {
-            return map.computeIfAbsent("BBBB", key2 -> 42);
+        Map<String, Integer> map2 = new ConcurrentHashMap<>(16);
+        map2.computeIfAbsent("AaAa", key -> {
+            return map2.computeIfAbsent("BBBB", key2 -> 42);
         });
 
     }
