@@ -14,8 +14,11 @@
 * 方法(全部final)
     * toString() 输出 "key=value"
     * hashCode() 输出 Objects.hashcode(key)^Objects.hashcode(value)
+        > Object类的hashcode是一种重量级的实现，但是可能出现不同对象的hashcode是一样的
     * setValue(V newValue) 设置 value=newValue，返回原有的value值
     * equals(Object o) key.equals(key)&&value.equals(value)时为true
+        > Object类的equals方法，在使用的时候主要用来比较成员变量的属性是否一致  
+        可以使用identity*方法来处理属性一致的特殊场景，ex：IdentityHashMap
 #### TreeNode内部类
 > 设计红黑树的实现就在这里，先放过他
 

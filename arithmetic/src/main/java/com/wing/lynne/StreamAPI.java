@@ -3,6 +3,7 @@ package com.wing.lynne;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -129,6 +130,11 @@ public class StreamAPI {
         //original list
         System.out.println();
         numberList.forEach(integer -> System.out.print(integer + "-"));
+
+
+
+        personList.parallelStream().collect(Collectors.toMap(Person::getName,Person::getAge));
+
 
     }
 

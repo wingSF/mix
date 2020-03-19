@@ -15,5 +15,6 @@
     <modules>
         <module>the-way-to-mybatis</module>
         <module>the-way-to-clickhouse</module>
+        <module>the-way-to-druid</module>
     </modules>
 </project>

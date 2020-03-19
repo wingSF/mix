@@ -150,56 +150,56 @@ public class QuickSort {
      * 基于第二个版本进行改进
      * 第二个版本中，每次数据交换会二个或者三个数据，且三个数据的情况居多，会有性能浪费
      * 本次改进主要位置为数据交换时的操作步骤
-     *
+     * <p>
      * 排序核心
-     *     第一个版本的排序思路
-     *         根据标兵，将数组中的其它元素，分为俩组，一组比标兵大，一组比标兵小
-     *     第二个版本的排序思路
-     *         由于第一个版本中，分为俩组的时候，产生了新的数组占用，需要优化，即不再new数组
-     *         考虑在一个数组遍历中，通过交换实现分组的效果，即最终达到[比标兵小的n个数，标兵，比标兵大的n个数]，然后递归排序
-     *         取第一个做为标兵，依次遍历后续元素
-     *             如果比标兵大，记录比标兵大的元素个数
-     *             如果比标兵小
-     *                 如果比标兵大的数据为0，直接交换标兵和目标元素
-     *                 如果比标兵大的数据为n
-     *                     将当前元素取出
-     *                     将标兵的后一位覆盖当前元素
-     *                     标兵放到边兵的后一位
-     *                     temp元素覆盖标兵位
-     *                 ex: 3  4  5  1
-     *                     标兵为3，当遍历到元素1的时候，比标兵大的元素有2个，
-     *                     1.temp = array[now](array[now]=1)
-     *                     2.标兵的后一位4，占据一个位置  array[now]=array[标兵index+1]
-     *                     3.标兵覆盖标兵的后一位  array[标兵index+1]=array[标兵index]
-     *                     4.now覆盖标兵位置 array[标兵index]=temp
-     *                     结果: 1  3  5  4
-     *                     后续排序   1     3(标兵)   5   4
-     *     第三个版本的排序思路
-     *         基于第二个排序思路中发现，每次元素交换会发生>=2次交换，调整下思路，交换次数
-     *         之前的交换过程中，标兵一直在移动，现在用一个index值，记录小于标兵的最后一个元素，等一次遍历全部结束后，再将标兵插入到数组中，我们称这个index为分区index
-     *
-     *             如果标兵的后一位比标兵大
-     *                 记录 partionIndex 的位置为标兵的位置
-     *             如果标兵的后一位比标兵小
-     *                 记录 partionIndex 的位置为标兵的后一位
-     *             从标兵的后俩位开始遍历
-     *                 如果元素比标兵大，不做处理，继续下一位
-     *                 如果元素比标兵小
-     *                     如果 partionIndex 的位置与当前位置 不相等
-     *                         交换partionIndex+1 和 当前位置 的俩个元素
-     *                         partionIndex+1
+     * 第一个版本的排序思路
+     * 根据标兵，将数组中的其它元素，分为俩组，一组比标兵大，一组比标兵小
+     * 第二个版本的排序思路
+     * 由于第一个版本中，分为俩组的时候，产生了新的数组占用，需要优化，即不再new数组
+     * 考虑在一个数组遍历中，通过交换实现分组的效果，即最终达到[比标兵小的n个数，标兵，比标兵大的n个数]，然后递归排序
+     * 取第一个做为标兵，依次遍历后续元素
+     * 如果比标兵大，记录比标兵大的元素个数
+     * 如果比标兵小
+     * 如果比标兵大的数据为0，直接交换标兵和目标元素
+     * 如果比标兵大的数据为n
+     * 将当前元素取出
+     * 将标兵的后一位覆盖当前元素
+     * 标兵放到边兵的后一位
+     * temp元素覆盖标兵位
+     * ex: 3  4  5  1
+     * 标兵为3，当遍历到元素1的时候，比标兵大的元素有2个，
+     * 1.temp = array[now](array[now]=1)
+     * 2.标兵的后一位4，占据一个位置  array[now]=array[标兵index+1]
+     * 3.标兵覆盖标兵的后一位  array[标兵index+1]=array[标兵index]
+     * 4.now覆盖标兵位置 array[标兵index]=temp
+     * 结果: 1  3  5  4
+     * 后续排序   1     3(标兵)   5   4
+     * 第三个版本的排序思路
+     * 基于第二个排序思路中发现，每次元素交换会发生>=2次交换，调整下思路，交换次数
+     * 之前的交换过程中，标兵一直在移动，现在用一个index值，记录小于标兵的最后一个元素，等一次遍历全部结束后，再将标兵插入到数组中，我们称这个index为分区index
+     * <p>
+     * 如果标兵的后一位比标兵大
+     * 记录 partionIndex 的位置为标兵的位置
+     * 如果标兵的后一位比标兵小
+     * 记录 partionIndex 的位置为标兵的后一位
+     * 从标兵的后俩位开始遍历
+     * 如果元素比标兵大，不做处理，继续下一位
+     * 如果元素比标兵小
+     * 如果 partionIndex 的位置与当前位置 不相等
+     * 交换partionIndex+1 和 当前位置 的俩个元素
+     * partionIndex+1
      */
     public static void quickSortThird(int[] array, int start, int end) {
 
-        if(end==start){
+        if (end == start) {
             return;
         }
 
-        if(end-start==1){
-            if(array[start]>array[end]){
-                int temp= end;
-                array[end]=array[start];
-                array[start]=temp;
+        if (end - start == 1) {
+            if (array[start] > array[end]) {
+                int temp = end;
+                array[end] = array[start];
+                array[start] = temp;
             }
             return;
         }
@@ -213,26 +213,26 @@ public class QuickSort {
             partionIndex = start + 1;
         }
 
-        for(int i= start+2;i<end;i++){
+        for (int i = start + 2; i < end; i++) {
 
-            if(array[i]<flag){
-                if(i!=partionIndex){
+            if (array[i] < flag) {
+                if (i != partionIndex) {
                     int temp = array[i];
-                    array[i]= array[partionIndex+1];
-                    array[partionIndex+1]=temp;
+                    array[i] = array[partionIndex + 1];
+                    array[partionIndex + 1] = temp;
                     partionIndex++;
                 }
             }
         }
 
-        if(partionIndex!=start){
+        if (partionIndex != start) {
             int temp = array[partionIndex];
-            array[partionIndex]=flag;
-            array[start]=temp;
+            array[partionIndex] = flag;
+            array[start] = temp;
         }
 
-        quickSortThird(array,start,partionIndex);
-        quickSortThird(array,partionIndex+1,end);
+        quickSortThird(array, start, partionIndex);
+        quickSortThird(array, partionIndex + 1, end);
     }
 
 
@@ -284,7 +284,8 @@ public class QuickSort {
 
 //      quickSortFirst(array);
 //      quickSortSecond(array, 0, array.length - 1);
-        quickSortThird(array,0,array.length-1);
+//        quickSortThird(array, 0, array.length - 1);
+        quickSortPlay(array, 0, array.length - 1);
 
         System.out.println("-------------");
 
@@ -294,6 +295,33 @@ public class QuickSort {
         }
         System.out.println();
         System.out.println("-------------");
+    }
+
+    private static void quickSortPlay(int[] array, int start, int end) {
+
+        int partionIndex = start;
+        int flag = array[partionIndex];
+        start++;
+
+        while (true) {
+            if (start > end) {
+                break;
+            }
+
+            if (array[start] < flag) {
+                array[partionIndex]=array[start];
+                array[start]=flag;
+                partionIndex++;
+            }else{
+                start++;
+            }
+        }
+
+        array[partionIndex]=flag;
+
+        quickSortPlay(array, start, partionIndex - 1);
+        quickSortPlay(array, partionIndex + 1, end);
+
     }
 
 }

@@ -60,9 +60,16 @@
 * suspend/resume/stop
     * 不推荐使用的方法
     * 因为不会释放资源，容易发生死锁（suspend/stop）
+        * suspend会挂起线程,但如果线程在挂起之前持有某些同步资源，在resume之前是不会释放同步资源的，可能会导致死锁
+            * 推荐使用wait或者notify来实现线程的挂起恢复
+        * stop方法，会释放所有lock的资源，此时被lock保护的资源会被别的线程所访问，可能出现数据不一致的情况
+            * 推荐使用interrupt标记来停止线程
 
 * 正确的线程终止方式
     * 通过interrupt或者volatile标识位的方式，结束线程
+    > interrupt中断当前线程，如果线程没有启动，没有作用  
+    isInterrupted判断当前线程是否被中断  
+    interrupted静态方法，判断当前线程是否被中断
     
 * 线程通信
     * 线程就像一个已经编写好的脚本一样，一经运行，就执行自己的任务

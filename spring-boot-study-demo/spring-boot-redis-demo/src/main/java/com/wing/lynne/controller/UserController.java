@@ -2,6 +2,8 @@ package com.wing.lynne.controller;
 
 import com.google.common.collect.Sets;
 import com.wing.lynne.po.User;
+import lombok.Builder;
+import lombok.Data;
 import org.redisson.api.RLiveObjectService;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -122,5 +125,31 @@ public class UserController {
 
         System.out.println(Thread.currentThread().getName()+" lock result "+tryLockResult);
 
+    }
+
+    @RequestMapping("/sendLiveObject")
+    public void sendLiveObject(String rid) throws InterruptedException {
+
+        //查询live object
+        User user = rLiveObjectService.get(User.class, rid);
+        //封装到另外一个对象里面
+        UserHelper userHelperBuilder = UserHelper.builder().user(user).build();
+        //传输到队列中
+        LinkedBlockingQueue<UserHelper> queue = new LinkedBlockingQueue();
+        queue.offer(userHelperBuilder);
+        //从队列中取出来
+        UserHelper userHelper = queue.take();
+
+        userHelper.getUser().setName("lynne");
+        //read属性
+        System.out.println(userHelper.getUser());
+
+    }
+
+
+    @Data
+    @Builder
+    static class UserHelper{
+        User user;
     }
 }

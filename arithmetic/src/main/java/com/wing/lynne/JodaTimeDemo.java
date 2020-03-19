@@ -9,6 +9,8 @@ public class JodaTimeDemo {
 
     public static void main(String[] args) {
 
+        System.out.println(new DateTime(DateTime.parse("2020-01-05T12:21:45.053000Z").getMillis()).toString("YYYY-MM-dd HH:mm:ss"));
+
         //获取昨天0点
         DateTime dateTime1 = DateTime.now().minusDays(1).withTimeAtStartOfDay();
         //获取今天0点
@@ -31,6 +33,9 @@ public class JodaTimeDemo {
         printDateTime(dateTime5);
         printDateTime(dateTime6);
         printDateTime(dateTime7);
+
+
+
     }
 
 
