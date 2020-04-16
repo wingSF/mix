@@ -1,6 +1,5 @@
 package com.wing.lynne.strategy.sort;
 
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,12 +46,12 @@ public class SortTest {
 
         List<Modal> modalList = new ArrayList<>();
 
-        Modal modal1 = new Modal("sf",2);
-        Modal modal2 = new Modal("st",3);
-        Modal modal3 = new Modal("spe",1);
-        Modal modal4 = new Modal("wr",6);
-        Modal modal5 = new Modal("wds",5);
-        Modal modal6 = new Modal("wds",5);
+        Modal modal1 = new Modal("sf", 2);
+        Modal modal2 = new Modal("st", 3);
+        Modal modal3 = new Modal("spe", 1);
+        Modal modal4 = new Modal("wr", 6);
+        Modal modal5 = new Modal("wds", 5);
+        Modal modal6 = new Modal("wds", 5);
 
         modalList.add(modal1);
         modalList.add(modal2);
@@ -84,7 +83,7 @@ public class SortTest {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    static class Modal{
+    static class Modal {
         private String name;
         private int age;
     }
