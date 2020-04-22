@@ -18,6 +18,7 @@
         <module>spring-boot-configuration</module>
         <module>spring-boot-redis-demo</module>
         <module>spring-boot-task-scheduling</module>
+        <module>spring-boot-elastic-search</module>
     </modules>
 
 </project>
