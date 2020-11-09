@@ -1,7 +1,13 @@
 package com.wing.lynne.controller;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gson.reflect.TypeToken;
 import com.wing.lynne.po.User;
+import com.wing.lynne.po.temp.ConfigDetailInfo;
+import com.wing.lynne.po.temp.OneLayerCheckItem;
+import com.wing.lynne.po.temp.TaskInfo;
+import com.wing.lynne.util.JsonUtil;
 import lombok.Builder;
 import lombok.Data;
 import org.redisson.api.RLiveObjectService;
@@ -12,6 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -114,7 +126,7 @@ public class UserController {
 
             tryLockResult = rLock.tryLock(5, 20, TimeUnit.SECONDS);
 
-            if(tryLockResult){
+            if (tryLockResult) {
                 TimeUnit.SECONDS.sleep(10);
 //                TimeUnit.SECONDS.sleep(30);
             }
@@ -123,7 +135,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        System.out.println(Thread.currentThread().getName()+" lock result "+tryLockResult);
+        System.out.println(Thread.currentThread().getName() + " lock result " + tryLockResult);
 
     }
 
@@ -146,10 +158,230 @@ public class UserController {
 
     }
 
+    /**
+     * 为了复现问题，可以参考{@link UserController#testProbleam(String)}方法注释
+     */
+    @RequestMapping("makeProbleam")
+    public void makeProbleam() {
+
+        TaskInfo.TaskColumnInfo column = TaskInfo.TaskColumnInfo.builder()
+                .columnTitle("dafdafafd")
+                .queryColumnName("adfafdafdafa")
+                .build();
+
+
+        ConfigDetailInfo.CalculateConfigInfo calculateConfigInfo = ConfigDetailInfo.CalculateConfigInfo.builder().build();
+        calculateConfigInfo.setColumnId(1231);
+        calculateConfigInfo.setColumnAsName("columnInfo.getColumnAsName()");
+        calculateConfigInfo.setColumnTitle("columnInfo.getColumnTitle()");
+        calculateConfigInfo.setLeftColumnAsName("configSet.getLeftOp()");
+        calculateConfigInfo.setOperator((byte) 1);
+        calculateConfigInfo.setRightColumnAsName("configSet.getRightOp()");
+        calculateConfigInfo.setRatioType(3);
+        calculateConfigInfo.setRatioPeriod(1);
+
+
+        ConfigDetailInfo.ConfigColumnInfo info = ConfigDetailInfo.ConfigColumnInfo.builder()
+                .columnId(1212)
+                .columnAsName("configColumn.getColumnAsName()")
+                .columnTitle("configColumn.getColumnTitle()")
+                .group(false)
+                .build();
+
+        ConfigDetailInfo.ConfigSourceInfo configSourceInfo = ConfigDetailInfo.ConfigSourceInfo.builder().build();
+        configSourceInfo.setTables(new ArrayList<>());
+        OneLayerCheckItem tableCheck = OneLayerCheckItem.builder()
+                .id(1231)
+                .name("table.getTableName()")
+                .build();
+        configSourceInfo.getTables().add(tableCheck);
+        configSourceInfo.getTables().add(tableCheck);
+        configSourceInfo.getTables().add(tableCheck);
+        configSourceInfo.getTables().add(tableCheck);
+
+
+        List<ConfigDetailInfo.ConfigTimeFilterInfo> timeFilterInfoList = Lists.newArrayList();
+        ConfigDetailInfo.ConfigTimeFilterInfo dafadfa = ConfigDetailInfo.ConfigTimeFilterInfo.builder()
+                .timeFilterType((byte) 1)
+                .timePatternType((byte) 1)
+                .timeReplaceStr("configTimeClause.getStartReplaceStr() + SEMI_COLON + configTimeClause.getEndReplaceStr()")
+                .timePatternStr("configTimeClause.getPatternStr()")
+                .customValue(1)
+                .build();
+        timeFilterInfoList.add(dafadfa);
+        timeFilterInfoList.add(dafadfa);
+        timeFilterInfoList.add(dafadfa);
+        timeFilterInfoList.add(dafadfa);
+        timeFilterInfoList.add(dafadfa);
+        timeFilterInfoList.add(dafadfa);
+        timeFilterInfoList.add(dafadfa);
+        timeFilterInfoList.add(dafadfa);
+
+        ConfigDetailInfo.SqlConfigInfo sqlConfigInfo = ConfigDetailInfo.SqlConfigInfo.builder().build();
+        sqlConfigInfo.setSourceList(Arrays.asList(configSourceInfo));
+        sqlConfigInfo.setSql("sqlsfadafnfeanfiuaheuiaiuvbauibvauibveaibveakbvlkdjbaljkvbdkljsabvdkjabvjkdasbvkbasjkvbalkjbdvkabvdkjabvdkjabvkjlbakjdvbakjbvdajkbvjkabvkjdbavjkbdjkabvkdjabvdjkalbvjkabdjkablvjklabjkvbjdbjsakv");
+        sqlConfigInfo.setConfigColumns(Arrays.asList(info, info, info, info, info));
+        sqlConfigInfo.setConfigTimeFilters(timeFilterInfoList);
+
+
+        ConfigDetailInfo.CompositeFieldInfo compositeFieldInfo = ConfigDetailInfo.CompositeFieldInfo.builder().build();
+        compositeFieldInfo.setColumnId(121231);
+        compositeFieldInfo.setColumnAsName("columnInfo.getColumnAsName()");
+        compositeFieldInfo.setColumnTitle("columnInfo.getColumnTitle()");
+
+        ConfigDetailInfo.ConfigSetInfo setInfo = ConfigDetailInfo.ConfigSetInfo.builder()
+                .setId(1231)
+                .type((byte) 1)
+                .calculateConfig(calculateConfigInfo)
+                .sqlConfig(sqlConfigInfo)
+                .compositeFieldInfo(compositeFieldInfo)
+                .build();
+
+        TaskInfo.TaskTimeFilterInfo timeFilterInfo = TaskInfo.TaskTimeFilterInfo.builder()
+                .filterType(1)
+                .patternType(1)
+                .timePattern("filterInfo.getTimePatternStr()")
+                .startReplaceStr("startStr")
+                .endReplaceStr("endStr")
+                .customValue(3)
+                .build();
+
+        TaskInfo.QueryTaskConfigInfo queryTaskConfigInfo = TaskInfo.QueryTaskConfigInfo.builder()
+                .columns(Arrays.asList(column, column, column, column, column, column, column, column, column))
+                .groupColumns(Arrays.asList(column, column, column, column, column, column, column, column, column))
+                .querySql("dafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheaufdafdafdadfafadfafdasdfafafafafashfuahfeuhafheuafhueahfleuafaheauf")
+                .sourceDatabaseId(13)
+                .sourceTables(Arrays.asList("ahhhaa", "adafdaf", "afdafda"))
+                .timeFilters(Arrays.asList(timeFilterInfo, timeFilterInfo, timeFilterInfo, timeFilterInfo, timeFilterInfo))
+                .build();
+
+
+        TaskInfo.ConfigInfo taskConfig = TaskInfo.ConfigInfo.builder()
+                .type(1)
+                .queryTaskInfo(queryTaskConfigInfo)
+                .build();
+
+        TaskInfo.BasicInfo basicInfo = TaskInfo.BasicInfo.builder()
+                .startTime(System.currentTimeMillis())
+                .endTime(System.currentTimeMillis())
+                .saveDatabaseId(114)
+                .saveTableName("dafdaf")
+                .timeGrain(1)
+                .configInfo(taskConfig)
+                .formId(114)
+                .build();
+
+
+        TaskInfo taskInfo = TaskInfo.builder()
+                .redisKey(rid)
+                .basicInfo(JsonUtil.toJson(basicInfo))
+                .uniqueCode("unqadfa")
+                .userId(33)
+                .taskType((byte) 1)
+                .stage(3)
+                .status(2)
+                .priority(1)
+                .invokeTaskList(Lists.newArrayList())
+                .taskTraceLogId(12312)
+                .errorLog("")
+                .startMillis(System.currentTimeMillis())
+                .completeSubTask(Lists.newArrayList())
+                .build();
+
+        TaskInfo persist = rLiveObjectService.persist(taskInfo);
+
+
+        System.out.println(persist);
+    }
+
+
+    /**
+     * 结合{@link UserController#makeProbleam()}，再辅以三味真火，哦不辅以 ./redis-cli 执行monitor观察，可以发现redissionLiveObject的代码，每次get都是网络请求
+     *
+     * 技术没有好坏，取决于场景和使用的他的人！人！人！
+     *
+     * @param rid
+     * @throws InterruptedException
+     */
+    @RequestMapping("testProbleam")
+    public void testProbleam(String rid) throws InterruptedException {
+        TaskInfo taskInfo = rLiveObjectService.get(TaskInfo.class, rid);
+
+        TimeUnit.SECONDS.sleep(3);
+
+//        CountDownLatch countDownLatch = new CountDownLatch(1);
+
+//        for (int i = 0; i < 50; i++) {
+//            new Thread(() -> {
+//                try {
+//                    countDownLatch.await();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
+        long start = System.currentTimeMillis();
+
+        for (int i = 0; i < 10; i++) {
+
+            String taskInfoJson = JsonUtil.toJson(taskInfo);
+
+            TimeUnit.SECONDS.sleep(3);
+
+            Type type = new TypeToken<HashMap<String, Object>>() {
+            }.getType();
+            Map<String, Object> taskInfoMap = JsonUtil.fromJson(taskInfoJson, type);
+            TimeUnit.SECONDS.sleep(3);
+        }
+
+
+        for (int i = 0; i < 10; i++) {
+
+            TaskInfo.BasicInfo basicInfo = JsonUtil.fromJson(taskInfo.getBasicInfo(), TaskInfo.BasicInfo.class);
+
+
+            System.out.println(basicInfo);
+            TimeUnit.SECONDS.sleep(3);
+
+        }
+
+
+        for (int i = 0; i < 10; i++) {
+
+            String basicInfo = taskInfo.getBasicInfo();
+
+            System.out.println(basicInfo);
+
+            TimeUnit.SECONDS.sleep(3);
+
+            taskInfo.getRedisKey();
+
+            TimeUnit.SECONDS.sleep(1);
+            taskInfo.getErrorLog();
+
+            TimeUnit.SECONDS.sleep(1);
+
+        }
+
+
+        long end = System.currentTimeMillis();
+
+        System.out.println(Thread.currentThread().getName() + " cost " + (end - start));
+
+//            }).start();
+
+//        }
+
+//        TimeUnit.SECONDS.sleep(5);
+//
+//        countDownLatch.countDown();
+
+
+    }
+
 
     @Data
     @Builder
-    static class UserHelper{
+    static class UserHelper {
         User user;
     }
 }

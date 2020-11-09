@@ -36,6 +36,11 @@ public class JodaTimeDemo {
 
 
 
+        //俩个时间比较大小
+        System.out.println(dateTime1.compareTo(dateTime2));
+
+
+
     }
 
 

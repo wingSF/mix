@@ -26,4 +26,7 @@ public class User {
     private User son;
 
     private Set<String> tags;
+
+
+    private String json;
 }

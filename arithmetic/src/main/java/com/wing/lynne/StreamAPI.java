@@ -3,7 +3,6 @@ package com.wing.lynne;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,6 +12,20 @@ import java.util.stream.Stream;
 public class StreamAPI {
 
     public static void main(String[] args) {
+
+
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+
+        List<Integer> result = new ArrayList<>();
+
+        integers.parallelStream().forEach(integer -> {
+            List<Integer> resultList = new ArrayList<>();
+            resultList.add(integer);
+            resultList.add(integer * 2);
+            result.addAll(resultList);
+        });
+
+        System.out.println(result);
 
         int[] array = {1, 2, 3};
         fun(array);
@@ -132,8 +145,7 @@ public class StreamAPI {
         numberList.forEach(integer -> System.out.print(integer + "-"));
 
 
-
-        personList.parallelStream().collect(Collectors.toMap(Person::getName,Person::getAge));
+        personList.parallelStream().collect(Collectors.toMap(Person::getName, Person::getAge));
 
 
     }

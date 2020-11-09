@@ -34,7 +34,7 @@ public class MainApplication {
         //非xml形式，自己组织SqlSessionFactory
         PooledDataSource dataSource = new PooledDataSource();
         dataSource.setDriver("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/mybatis");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/wing");
         dataSource.setUsername("root");
         dataSource.setPassword("asdf1111");
 
