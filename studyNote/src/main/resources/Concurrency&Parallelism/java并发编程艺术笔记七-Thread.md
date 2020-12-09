@@ -102,7 +102,12 @@
     * join的实质是，wait在线程对象上，等待线程终结的时候，notifyall
 
 * ThreadLocal
-    * todo 后续补充，很重要的东西，但是介绍很少
+    * 在每个Thread对象内部，都有一个ThreadLocal.ThreadLocalMap类型的成员变量叫threadLocals
+    * 该成员变量可以理解是一个map类型
+    * key是一个自定义的Entry类型，继承自WeakReference，泛型是ThreadLocal类型
+    * key中存储的是ThreadLocal对象，value是想要和线程绑定的对象
+    * 推荐强引用static final修改要作为key的ThreadLocal对象，这样就不会被gc回收，导致内存泄漏
+    * 使用时，一定要记得remove，否则会引发oom
     
 * 等待超时模式
     * 当前时间a，超时时间t，一直等待，知道经过了t时间之后，再返回
