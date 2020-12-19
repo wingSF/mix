@@ -79,7 +79,18 @@
     * 多线程+老年代
     
     * CMS（Concurrent Mark Sweep）- 标记清除 - 会有碎片
+        * 初始标记，标记gcroot能访问到的对象，停顿短
+        * 并发标记，执行gcroot查找引用的过程，无停顿
+        * 重新标记，上面俩个标记过程中，有一些发生变动，有停顿，但比初始标记短
+        * 并发清除，无停顿
+        * 可配置参数，多少次full gc后搞一次整理
     * G1（Garbge First）- 标记整理 - 动态预测 - 优先回收价值高的区域
+        * 带整理的回收 & 可预测停顿
+        * 内存区域是等大的region，个数不限，不再连续，有Eden，survivor，old，humongous
+        * 回收大概思路，E区回收到S区，S区回收进old区，大对象进连续的Humongous区
+        * 过程
+            * 初始标记，依赖SATB，young gc前，对region进行一个快照，STW，但是很短
+            * 
     
 * Minor & Major
     * Minor 新生代
