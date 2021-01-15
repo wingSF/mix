@@ -103,11 +103,36 @@
 
 * ThreadLocal
     * 在每个Thread对象内部，都有一个ThreadLocal.ThreadLocalMap类型的成员变量叫threadLocals
-    * 该成员变量可以理解是一个map类型
+    * 该成员变量可以理解是一个map类型,实际是数组，使用开放地址法解决了hash冲突
     * key是一个自定义的Entry类型，继承自WeakReference，泛型是ThreadLocal类型
+      ```java
+      static class Entry extends WeakReference<ThreadLocal<?>> {
+          /** The value associated with this ThreadLocal. */ 
+             Object value;
+            Entry(ThreadLocal<?> k, Object v) {
+                super(k);
+                value = v;
+            }
+      }
+      ``` 
     * key中存储的是ThreadLocal对象，value是想要和线程绑定的对象
-    * 推荐强引用static final修改要作为key的ThreadLocal对象，这样就不会被gc回收，导致内存泄漏
-    * 使用时，一定要记得remove，否则会引发oom
+    * 问题
+        * 脏数据
+            * 常见于线程复用场景下，将threadLocal实例共享，每个target运行过程中都操作这个threadLocal的value值
+            * 一个target运行中set了，但是后续没有remove，会被下一个target读取到
+        * 内存泄漏
+            * 因为Entry是被WeakReference修饰的，所以当gc时，如果空间紧张会将一个Entry回收
+            * 此时如果thread长期存活，则出现这样的引用链thread->threadLocalMap->key(null)->value
+            * 这就是网上说的内存泄露
+            * 个人观点
+                * 出现上述场景的前提是，thread会调用threadLocal.set(value)
+                * 而set方法中，会有`replaceStaleEntry` `cleanSomeSlots`这俩个方法的调用
+                * 这俩个方法都会对当前threadLocalMap的table进行遍历判断，将key为null的数据移除
+                * 综上，个人结论，一定不会出现内存泄漏，只是gc浪费
+            * 个人建议
+                * 将ThreadLocal实例用强引用关联，不再依赖WeakReference进行回收，将回收还是回收掌握再自己手里
+                * ThreadLocal实例不要共享
+                * 书写规范，再target方法结束时，手动调用remove
     
 * 等待超时模式
     * 当前时间a，超时时间t，一直等待，知道经过了t时间之后，再返回
