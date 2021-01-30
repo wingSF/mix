@@ -39,8 +39,15 @@
 
 # 锁
 * 通过锁保证不出现不可重复读/幻读
-* 意向锁（共享/排他）// todo 待深入明确
+* 意向锁（共享/排他）
+    * 表级锁
     * 是innodb中的锁机制
+* 插入意向锁
+    * 行级锁
+    * 只有在插入的时候才会使用
+    * 俩个插入意向锁之间不会冲突，但会和gap/next-key 冲突，就是基于这个原理，搞定了幻读问题
+    * 一个事务如果获取了插入意向锁，不影响任何别的事务加任何锁
+    * 一个事务尝试获取插入意向锁，会被gap/next-key阻塞
 * 共享锁（Share->s锁，别称:读锁）
     * 多个事务只能读，不能写
 * 排他锁（eXclusive->x锁,别称:写锁）
@@ -51,9 +58,26 @@
     * 从索引列锁住唯一的记录
 * 间隙锁
     * 锁住一个区间
+    * RR隔离级别下，修改一个不存在的数据，会锁住这个记录应该在的前后俩个索引中间的范围
+    * 间隙锁只会阻塞插入意向锁，不会阻塞别的锁
 * 临键锁
     * 间隙锁+记录锁
-    
+    * 左开(gap)+右闭(record)
+    * RR隔离级别下，修改一个的数据，根据where条件命中非唯一索引，会将记录加x锁，记录前后加gap锁
+* 自增锁
+    * auto_increment带来的锅
+    * 远古时期，都是mysql维护自增的
+    * 后来有个配置`innodb_autoinc_lock_mode`
+        * 0:采用远古方案
+        * 2:全部采用新方案，相对于远古时期的自增锁，是一个轻量级的自增锁，为数据库主从数据不一致[埋下了雷](//todo)
+        * 1:根据insert sql插入数据量的情况分三种
+            * 1.1:simple inserts 明确知道插入数据量
+            * 1.2:bulk inserts 无法知道插入数量
+            * 1.3:mixed-mode inserts 有的有自增值，有的没有 insert...on duplicate key update
+            > 1.1和1.3使用轻量级自增锁，1.2远古自增锁
+* 锁查看
+    * select * from infomation_schema.innodb_locks
+    * select * from infomation_schema.innodb_lock_waits
 * undo log
     * 在事务开始之前，把要操作的数据写入undo log，用于后续回滚或者快照读
 * redo log
