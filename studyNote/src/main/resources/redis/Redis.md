@@ -74,7 +74,7 @@ sunion操作可以将俩个set组合在一起
     * bf.mexists key value1 value2
     
 
-# redis动态字符串
+# redis动态字符串(Simple Dynamic String 简称sds)
 * redis存储字符串的时候，采用了预先分配机制，capacity大于字符串的len，如果占用空间1M以内，每次增长都翻倍，超过1M，每次增加1M
 
 # redis的ziplist quicklist
