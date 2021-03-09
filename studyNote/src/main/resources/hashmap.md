@@ -20,7 +20,7 @@
         > Object类的equals方法，在使用的时候主要用来比较成员变量的属性是否一致  
         可以使用identity*方法来处理属性一致的特殊场景，ex：IdentityHashMap
 #### TreeNode内部类
-> 设计红黑树的实现就在这里，先放过他
+* 参见[TreeMap](https://github.com/wingSF/mix/blob/master/studyNote/src/main/resources/treemap.md)
 
 
 #### 为什么说hashmap线程不安全
