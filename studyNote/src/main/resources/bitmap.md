@@ -3,9 +3,9 @@
 * count bit
     * 一串01序列，如何知道有多少个1 ？？？
     * 科普知识，知道的可忽略
-        * [汉明距离](https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB/475174?fr=aladdin)
+        * [汉明距离](https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB/475174)
             * 俩个等长的字符串，对应位置字符不一样的个数
-        * [汉明重量](https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F/7110799?fr=aladdin)
+        * [汉明重量](https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F/7110799)
             * 一串符号中非0符号的个数
             * 等同于 和 同样长度的全零符号串 的 汉明距离
             > 所以count bit问题，就是计算汉明重量问题！！！
