@@ -35,6 +35,7 @@ public class ReverseLinkedList {
 
     public static ListNode reverseBetween(ListNode head, int left, int right) {
 
+        //节点备份，用于返回值
         ListNode headBak = head;
 
         //边界判断
@@ -44,7 +45,7 @@ public class ReverseLinkedList {
 
         int count = 1;
 
-        //找到反转的前一个位置
+        //找到反转的前一个位置，如果left==1，该值是null，返回时需注意
         ListNode sepNode = null;
         while (true) {
             if (count == left) {
@@ -83,6 +84,7 @@ public class ReverseLinkedList {
         }
         lastNode.next = head;
 
+        //根据sepNode是否位null，返回不同的值
         return sepNode == null ? nextNode : headBak;
     }
 
