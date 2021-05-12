@@ -1,4 +1,4 @@
-package com.wing.lynne.leetcode;
+package com.wing.lynne.leetcode.tree;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.wing.lynne.leetcode;
+package com.wing.lynne.leetcode.linkedList;
 
 /**
  * https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy/6/linked-list/42/

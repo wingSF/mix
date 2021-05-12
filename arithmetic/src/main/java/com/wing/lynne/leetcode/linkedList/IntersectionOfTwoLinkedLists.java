@@ -1,4 +1,6 @@
-package com.wing.lynne.leetcode;
+package com.wing.lynne.leetcode.linkedList;
+
+import com.wing.lynne.leetcode.linkedList.ListNode;
 
 /**
  * https://leetcode-cn.com/problems/intersection-of-two-linked-lists/

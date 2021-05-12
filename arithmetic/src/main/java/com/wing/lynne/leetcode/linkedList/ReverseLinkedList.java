@@ -1,4 +1,4 @@
-package com.wing.lynne.leetcode;
+package com.wing.lynne.leetcode.linkedList;
 
 /**
  * https://leetcode-cn.com/problems/reverse-linked-list-ii/
