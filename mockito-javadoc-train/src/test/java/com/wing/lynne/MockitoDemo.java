@@ -1,10 +1,9 @@
-import org.omg.CORBA.StringHolder;
+package com.wing.lynne;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,7 +46,7 @@ public class MockitoDemo {
 
     }
 
-    public static void function3(){
+    public static void function3() {
 
         LinkedList mockedLinkedList = mock(LinkedList.class);
 
