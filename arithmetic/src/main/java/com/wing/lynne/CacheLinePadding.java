@@ -15,52 +15,46 @@ public class CacheLinePadding {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
+        /**获取机器cpu数量*/
         int processorNumber = Runtime.getRuntime().availableProcessors();
-
+        /**创建于cpu数量等大的Counter数据*/
         Counter[] counterArray = new Counter[processorNumber];
-
+        /**初始化数据*/
         for (int i = 0; i < processorNumber; i++) {
             counterArray[i] = new Counter();
         }
 
+        /**创建一个不合规的线程池*/
         ExecutorService executorService = Executors.newFixedThreadPool(processorNumber);
 
+        /**像线程池提交任务*/
         List<Future<String>> resultList = new ArrayList();
-
         for (int i = 0; i < processorNumber; i++) {
             Future<String> submit = executorService.submit(new MyCallable(counterArray, i));
             resultList.add(submit);
         }
 
-
-        int count = 0;
-
-        while (true) {
-
-            if (resultList.get(count).isDone() == true) {
-                count++;
-            }
-
-            if (count == processorNumber - 1) {
-                break;
-            }
-
-        }
-
+        /**获取执行结果*/
         for (Future future : resultList) {
             System.out.println(future.get());
         }
 
+        /**关闭线程池*/
         executorService.shutdown();
-
     }
 
+    /**
+     * 被操作对象
+     */
     static class Counter {
-        volatile long v;
-//        long v1,v2,v3,v4,v5;
-//        long v;
+//        long vb1,vb2,vb3,vb4,vb5,vb6,vb7;
+        long v;
+//        long va1,va2,va3,va4,va5,va6,va7;
     }
 
+    /**
+     * worker类
+     */
     static class MyCallable implements Callable<String> {
 
         private Counter[] counterArray;
@@ -131,6 +125,5 @@ public class CacheLinePadding {
  *      缓冲行不是64位的处理器
  *      不被频繁写的数据
  *          如果不是被频繁写的话，加填充就打不到想要的效果，反而浪费宝贵的空间
- * 6.如果增加填充的姿势不合理的话，可能会被jvm优化掉
- *
+ * 6.如果增加填充的姿势不合理的话，可能会被jvm优化掉，推荐使用@Contended
  */

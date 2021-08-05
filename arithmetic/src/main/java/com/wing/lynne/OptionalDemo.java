@@ -5,22 +5,35 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.swing.text.html.Option;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class OptionalDemo {
 
     public static void main(String[] args) {
 
+        D dd = new D();
+        HashMap<Object, Object> demoMap = new HashMap<>();
+        demoMap.put("haha","wtm");
+        dd.setDemoMap(demoMap);
+
+        boolean ifEmpty = Optional.ofNullable(dd)
+                .map(d -> d.getDemoMap())
+                .orElse(new HashMap())
+                .isEmpty();
+
+        System.out.println(ifEmpty);
+
         C cc = new C();
         cc.setName("hah");
 
         B bb = new B();
 
-        A aa = new A();
+        A aa = null;
         A aaa = new A();
-        aa.setB(bb);
-        bb.setC(cc);
+//        aa.setB(bb);
+//        bb.setC(cc);
 
 
         String s = Optional.ofNullable(aa)
@@ -66,4 +79,11 @@ class B {
 @AllArgsConstructor
 class C {
     private String name;
+}
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+class D{
+    private Map demoMap;
 }
