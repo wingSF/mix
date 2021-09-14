@@ -1,5 +1,7 @@
 package com.wing.lynne;
 
+import com.google.common.base.Joiner;
+
 import java.lang.reflect.Field;
 
 
@@ -15,6 +17,9 @@ import java.lang.reflect.Field;
 public class StringDemo {
 
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+
+        String join = Joiner.on("_").skipNulls().join("a", null);
+        System.out.println(join);
 
 //        注释打开和不打开是俩种结果
 //        jdk版本也会影响返回值（以1.7为分界线）

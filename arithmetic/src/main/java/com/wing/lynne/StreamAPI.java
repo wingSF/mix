@@ -13,6 +13,24 @@ public class StreamAPI {
 
     public static void main(String[] args) {
 
+        Person person1 = new Person("a", 1);
+        Person person2 = new Person("b", 2);
+        Person person3 = new Person("a", 2);
+
+        ArrayList<Person> personArrayList = new ArrayList<>();
+        personArrayList.add(person1);
+        personArrayList.add(person2);
+        personArrayList.add(person3);
+
+        Map<String, List<Person>> personData = personArrayList.stream()
+                .collect(Collectors.groupingBy(Person::getName, Collectors.toList()));
+
+        List<Person> flatMapPersonList = personData.values()
+                .stream()
+                .flatMap(personList -> personList.stream())
+                .collect(Collectors.toList());
+
+        System.out.println(flatMapPersonList);
 
         List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
 
@@ -163,6 +181,14 @@ public class StreamAPI {
 
         String name;
         int age;
+
+        public Person() {
+        }
+
+        public Person(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
 
         public String getName() {
             return name;
