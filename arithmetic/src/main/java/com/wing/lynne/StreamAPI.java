@@ -22,6 +22,10 @@ public class StreamAPI {
         personArrayList.add(person2);
         personArrayList.add(person3);
 
+        //排序、排序反转
+        personArrayList.sort(Comparator.comparing(Person::getAge));
+        personArrayList.sort(Comparator.comparing(Person::getAge).reversed());
+
         Map<String, List<Person>> personData = personArrayList.stream()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.toList()));
 
